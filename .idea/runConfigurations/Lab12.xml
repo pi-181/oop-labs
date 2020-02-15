@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Lab12" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.demkom58.lab12.Main" />
+    <module name="OOPLabs.Lab12.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.demkom58.lab12.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

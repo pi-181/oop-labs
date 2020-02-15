@@ -1,0 +1,17 @@
+rootProject.name = 'OOPLabs'
+
+include 'Lab1'
+include 'Lab2'
+include 'Lab3'
+include 'Lab4'
+include 'Lab5'
+include 'Lab6'
+include 'Lab7'
+include 'Lab8'
+include 'Lab9'
+include 'Lab10'
+include 'Lab11'
+include 'Lab12'
+include 'Lab13'
+include 'Lab14'
+
