@@ -2,12 +2,12 @@ plugins {
     id 'java'
 }
 
+group 'com.demkom58'
+version '1.0-SNAPSHOT'
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'application'
-
-    group 'com.demkom58'
-    version '1.0-SNAPSHOT'
 
     compileJava {
         sourceCompatibility = JavaVersion.VERSION_1_8

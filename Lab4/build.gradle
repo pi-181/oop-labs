@@ -21,8 +21,9 @@ dependencies {
 compileJava {
     doLast() {
         project.ant.taskdef name: 'javac2', classname: 'com.intellij.ant.Javac2', classpath: project.configurations.antTask.asPath
+
         project.ant.javac2 srcdir: project.sourceSets.main.java.srcDirs.join(':'),
-                includes: 'com/demkom58/**/*.form',
+                includes: rootProject.property("group").replace('.', '/') + '/**/*.form',
                 classpath: project.sourceSets.main.runtimeClasspath.asPath,
                 destdir: project.sourceSets.main.output.classesDirs[0],
                 source: project.sourceCompatibility,
