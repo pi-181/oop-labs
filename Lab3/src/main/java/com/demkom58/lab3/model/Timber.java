@@ -58,7 +58,7 @@ public class Timber extends AbstractForm {
 
     @Override
     public float weight() {
-        return volume() * wood.getDestiny();
+        return volume() * wood.getDensity();
     }
 
     @Override

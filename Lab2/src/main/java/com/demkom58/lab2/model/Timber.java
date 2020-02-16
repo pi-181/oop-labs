@@ -65,7 +65,7 @@ public class Timber {
     }
 
     public float weight() {
-        return volume() * wood.getDestiny();
+        return volume() * wood.getDensity();
     }
 
     @Override
