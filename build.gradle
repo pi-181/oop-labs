@@ -2,17 +2,12 @@ plugins {
     id 'java'
 }
 
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'application'
 
     group 'com.demkom58'
     version '1.0-SNAPSHOT'
-
-    compileJava.options.encoding = 'UTF-8'
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-    }
 
     compileJava {
         sourceCompatibility = JavaVersion.VERSION_1_8
