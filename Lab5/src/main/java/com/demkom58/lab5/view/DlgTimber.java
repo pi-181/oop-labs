@@ -52,7 +52,13 @@ public class DlgTimber extends JDialog implements IWoodDialog {
         final float height = Float.parseFloat(textFieldHeight.getText());
         final Wood wood = (Wood) comboBoxWood.getSelectedItem();
 
-        timber = new Timber(wood, length, height, width);
+        try {
+            timber = new Timber(wood, length, height, width);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Timber dialog error", JOptionPane.ERROR_MESSAGE);
+            timber = null;
+        }
+
         setVisible(false);
     }
 

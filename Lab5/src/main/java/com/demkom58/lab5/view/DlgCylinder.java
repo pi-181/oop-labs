@@ -49,7 +49,14 @@ public class DlgCylinder extends JDialog implements IWoodDialog {
         final float diameter = Float.parseFloat(textFieldDiameter.getText());
         final float height = Float.parseFloat(textFieldHeight.getText());
         final Wood wood = (Wood) comboBoxWood.getSelectedItem();
-        cylinder = new Cylinder(wood, height, diameter);
+
+        try {
+            cylinder = new Cylinder(wood, height, diameter);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Cylinder dialog error", JOptionPane.ERROR_MESSAGE);
+            cylinder = null;
+        }
+
         setVisible(false);
     }
 

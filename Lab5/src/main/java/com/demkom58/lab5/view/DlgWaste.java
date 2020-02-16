@@ -48,6 +48,7 @@ public class DlgWaste extends JDialog implements IWoodDialog {
             waste = new Waste(weight);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Waste dialog error", JOptionPane.ERROR_MESSAGE);
+            waste = null;
         }
         setVisible(false);
 

@@ -7,20 +7,27 @@ public class Timber extends AbstractForm {
     private float height;
     private float width;
 
-    public Timber(Wood wood, float length, float height, float width) {
+    public Timber(Wood wood, float length, float height, float width) throws Exception {
         super(wood);
         Objects.requireNonNull(wood, "Wood can't be null");
 
-        this.length = length;
-        this.height = height;
-        this.width = width;
+        setLength(length);
+        setHeight(height);
+        setWidth(width);
+
+        final float weight = weight();
+        if (weight > 1000)
+            throw new Exception(weight + " is not correct weight. It should be less than 1000 kg.");
     }
 
     public float getLength() {
         return length;
     }
 
-    public void setLength(float length) {
+    public void setLength(float length) throws Exception {
+        if (5 > length || length > 100)
+            throw new Exception("Length of Timber should be in range from 5 to 100 m");
+
         this.length = length;
     }
 
@@ -28,7 +35,10 @@ public class Timber extends AbstractForm {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(float height) throws Exception {
+        if (1 > height || height > 10)
+            throw new Exception("Height of Timber should be in range from 1 to 10 m");
+
         this.height = height;
     }
 
@@ -36,7 +46,10 @@ public class Timber extends AbstractForm {
         return width;
     }
 
-    public void setWidth(float width) {
+    public void setWidth(float width) throws Exception {
+        if (5 > width || width > 10)
+            throw new Exception("Width of Timber should be in range from 5 to 10 m");
+
         this.width = width;
     }
 
