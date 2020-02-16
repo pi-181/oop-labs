@@ -1,15 +1,22 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Lab14" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.demkom58.lab14.Main" />
-    <module name="OOPLabs.Lab14.main" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="com.demkom58.lab14.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+  <configuration default="false" name="Lab14" type="GradleRunConfiguration" factoryName="Gradle">
+    <ExternalSystemSettings>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/Lab14" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value="clean" />
+          <option value="run" />
+        </list>
+      </option>
+      <option name="vmOptions" value="" />
+    </ExternalSystemSettings>
+    <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+    <method v="2" />
   </configuration>
 </component>
