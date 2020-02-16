@@ -1,6 +1,5 @@
 mainClassName = "com.demkom58.lab5.Main"
 
-
 repositories {
     flatDir dirs: "./../lib"
     mavenCentral()
