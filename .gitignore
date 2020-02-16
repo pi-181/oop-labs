@@ -155,4 +155,4 @@ $RECYCLE.BIN/
 
 # Include useful configurations
 !.idea/runConfigurations/**
-!Lab*/lib/**
+!lib/**
