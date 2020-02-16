@@ -1,21 +1,3 @@
-### Specific template
-# Plugins config ignoring
-.idea/checkstyle-idea.xml
-.idea/hotswap_agent.xml
-.idea/discord.xml
-
-# Common not needed
-.idea/jarRepositories.xml
-.idea/misc.xml
-.idea/vcs.xml
-.idea/modules
-
-# Code style config (not needed in this time)
-.idea/codeStyles
-
-# Include useful configurations
-!.idea/runConfigurations/**
-
 # Created by .ignore support plugin (hsz.mobi)
 ### Gradle template
 .gradle
@@ -155,3 +137,22 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+### Specific template
+# Plugins config ignoring
+.idea/checkstyle-idea.xml
+.idea/hotswap_agent.xml
+.idea/discord.xml
+
+# Common not needed
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/modules
+
+# Code style config (not needed in this time)
+.idea/codeStyles
+
+# Include useful configurations
+!.idea/runConfigurations/**
+!Lab*/lib/**

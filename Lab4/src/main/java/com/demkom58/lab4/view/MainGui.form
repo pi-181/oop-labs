@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.demkom58.lab4.view.MainGui">
+  <grid id="27dc6" binding="rootPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="674" height="363"/>
+    </constraints>
+    <properties>
+      <background color="-1"/>
+      <enabled value="false"/>
+      <foreground color="-1"/>
+    </properties>
+    <clientProperties>
+      <html.disable class="java.lang.Boolean" value="false"/>
+    </clientProperties>
+    <border type="none"/>
+    <children>
+      <component id="363a9" class="javax.swing.JFormattedTextField" binding="helloWorldInput">
+        <constraints/>
+        <properties>
+          <text value="Привет мир! :)"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
