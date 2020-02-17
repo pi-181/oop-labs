@@ -2,9 +2,10 @@ package com.demkom58.lab6.store;
 
 import com.demkom58.lab6.model.Wood;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class WoodDirectory {
+public class WoodDirectory implements Serializable {
     private Wood[] arr = new Wood[3];
     private int count;
 

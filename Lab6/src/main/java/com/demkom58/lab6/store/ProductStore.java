@@ -2,9 +2,10 @@ package com.demkom58.lab6.store;
 
 import com.demkom58.lab6.model.IWeight;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class ProductStore {
+public class ProductStore implements Serializable {
     private IWeight[] arr = new IWeight[3];
     private int count = 0;
 

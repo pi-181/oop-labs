@@ -1,8 +1,9 @@
 package com.demkom58.lab6.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Wood {
+public class Wood implements Serializable {
     private int id;
     private String name;
     private float density;
