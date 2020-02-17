@@ -7,7 +7,7 @@ import java.util.EventObject;
 public class ProductEvent extends EventObject {
 
     private IWeight product;
-    private long time;
+    private long time = System.currentTimeMillis();
 
     /**
      * Constructs a prototypical Event.

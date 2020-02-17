@@ -92,6 +92,12 @@
                   <text value="Save"/>
                 </properties>
               </component>
+              <component id="52f99" class="javax.swing.JMenuItem" binding="showLogMenuItem">
+                <constraints/>
+                <properties>
+                  <text value="Show Log"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>

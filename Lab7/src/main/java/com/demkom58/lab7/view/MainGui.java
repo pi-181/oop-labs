@@ -1,11 +1,13 @@
 package com.demkom58.lab7.view;
 
+import com.demkom58.lab7.event.EventLogger;
 import com.demkom58.lab7.model.IWeight;
 import com.demkom58.lab7.store.ProductStore;
 import com.demkom58.lab7.store.WoodDirectory;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,6 +20,7 @@ public class MainGui extends JFrame {
     private JTextArea textArea;
     private JMenuItem saveMenuItem;
     private JMenuItem openMenuItem;
+    private JMenuItem showLogMenuItem;
 
     private WoodDirectory woodDirectory = new WoodDirectory();
     private ProductStore productStore = new ProductStore();
@@ -26,6 +29,8 @@ public class MainGui extends JFrame {
     private DlgCylinder dlgCylinder = new DlgCylinder();
     private DlgTimber dlgTimber = new DlgTimber();
     private DlgWood dlgWood = new DlgWood();
+
+    private EventLogger eventLogger = new EventLogger();
 
     public MainGui() {
         try {
@@ -51,10 +56,12 @@ public class MainGui extends JFrame {
         });
         openMenuItem.addActionListener(this::open);
         saveMenuItem.addActionListener(this::save);
+        showLogMenuItem.addActionListener(this::showLog);
 
         textArea.setText(productStore.toString());
 
         productStore.addProductListener((event) -> System.out.println(event.getSource()));
+        productStore.addProductListener(eventLogger);
     }
 
     public void open(ActionEvent e) {
@@ -117,6 +124,14 @@ public class MainGui extends JFrame {
         try(ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(selectedFile))) {
             stream.writeObject(woodDirectory);
             stream.writeObject(productStore);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void showLog(ActionEvent e) {
+        try {
+            Desktop.getDesktop().open(new File(eventLogger.getLogFileName()));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
