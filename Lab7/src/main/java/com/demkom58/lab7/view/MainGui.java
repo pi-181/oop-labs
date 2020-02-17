@@ -53,6 +53,8 @@ public class MainGui extends JFrame {
         saveMenuItem.addActionListener(this::save);
 
         textArea.setText(productStore.toString());
+
+        productStore.addProductListener((event) -> System.out.println(event.getSource()));
     }
 
     public void open(ActionEvent e) {

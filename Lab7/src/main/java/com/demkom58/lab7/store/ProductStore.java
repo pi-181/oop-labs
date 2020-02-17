@@ -1,30 +1,49 @@
 package com.demkom58.lab7.store;
 
+import com.demkom58.lab7.event.IProductListener;
+import com.demkom58.lab7.event.ProductEvent;
 import com.demkom58.lab7.model.IWeight;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductStore implements Serializable {
-    private IWeight[] arr = new IWeight[3];
-    private int count = 0;
+    private final Object monitor = new Object();
+
+    private List<IWeight> arr = new ArrayList<>();
+    private List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
 
     public void add(IWeight abstractForm) {
-        if (arr.length == count)
-            arr = Arrays.copyOf(arr, count + count / 2);
-
-        arr[count++] = abstractForm;
+        synchronized (monitor) {
+            arr.add(abstractForm);
+            fireProductListener(new ProductEvent(this , abstractForm));
+        }
     }
 
     public IWeight[] getArr() {
-        return Arrays.copyOf(arr, count);
+        return arr.toArray(new IWeight[0]);
+    }
+
+    public void addProductListener(IProductListener listener) {
+        productListeners.add(listener);
+    }
+
+    public void removeProductListener(IProductListener listener) {
+        productListeners.remove(listener);
+    }
+
+    protected void fireProductListener(ProductEvent event) {
+        productListeners.forEach(listener -> listener.onProductEvent(event));
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder("Каталог виробів: \n");
-        for (int i = 0; i < count; i++)
-            builder.append(arr[i]).append("\n");
+        for (IWeight iWeight : arr)
+            builder.append(iWeight).append("\n");
 
         return builder.toString();
     }
