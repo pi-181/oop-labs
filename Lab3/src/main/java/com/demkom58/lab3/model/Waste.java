@@ -11,4 +11,9 @@ public class Waste implements IWeight {
     public float weight() {
         return weight;
     }
+
+    @Override
+    public String toString() {
+        return "Waste{" + "weight=" + weight + '}';
+    }
 }
