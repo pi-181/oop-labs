@@ -27,7 +27,7 @@ public class Main {
 
         final boolean granted = budget && nationalMarks.stream().allMatch(mark -> mark.ordinal() <= EctsMark.C.ordinal());
         final String formattedMarks = nationalMarks.stream()
-                .map(EctsMark::name)
+                .map(mark -> mark.name() + "(" + mark.getNationalMark() + ")")
                 .collect(Collectors.joining(", "));
 
         System.out.println(String.format("%s; Marks: %s; Budget: %s; Granted: %s",
