@@ -57,13 +57,6 @@ public class DlgCylinder extends JDialog implements IWoodDialog {
         setVisible(false);
     }
 
-    public static void main(String[] args) {
-        DlgCylinder dialog = new DlgCylinder();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
-
     @Override
     public Object getObject() {
         return cylinder;

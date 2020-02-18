@@ -55,13 +55,6 @@ public class DlgWood extends JDialog implements IWoodDialog {
         setVisible(false);
     }
 
-    public static void main(String[] args) {
-        DlgWood dialog = new DlgWood();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
-
     @Override
     public Object getObject() {
         return null;
