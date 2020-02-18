@@ -60,7 +60,7 @@ public class MainGui extends JFrame {
 
         textArea.setText(productStore.toString());
 
-        productStore.addProductListener((event) -> System.out.println(event.getSource()));
+        productStore.addProductListener((event) -> System.out.println(event.getProduct()));
         productStore.addProductListener(eventLogger);
     }
 

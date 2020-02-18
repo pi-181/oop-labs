@@ -20,9 +20,8 @@ public class ProductEvent extends EventObject {
         this.product = product;
     }
 
-    @Override
-    public Object getSource() {
-        return super.getSource();
+    public IWeight getProduct() {
+        return product;
     }
 
     public long getTime() {
