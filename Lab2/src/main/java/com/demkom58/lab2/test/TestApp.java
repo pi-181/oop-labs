@@ -12,7 +12,6 @@ public class TestApp {
     public void startApp() {
         productStore.add(new Timber(woodDirectory.get(1), 5f, 0.5f, 0.4f));
         productStore.add(new Timber(woodDirectory.get(2), 10f, 0.5f, 0.4f));
-        productStore.add(new Cylinder(woodDirectory.get(3), 5f, 0.8f));
 
         System.out.println(woodDirectory);
         System.out.println(productStore);
