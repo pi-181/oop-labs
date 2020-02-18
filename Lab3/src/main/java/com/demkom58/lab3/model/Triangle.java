@@ -1,10 +1,10 @@
 package com.demkom58.lab3.model;
 
-public class RegularTriangle extends AbstractForm {
+public class Triangle extends AbstractForm {
     private float height;
     private float side;
 
-    public RegularTriangle(Wood wood, float height, float side) {
+    public Triangle(Wood wood, float height, float side) {
         super(wood);
         this.height = height;
         this.side = side;
@@ -38,7 +38,7 @@ public class RegularTriangle extends AbstractForm {
 
     @Override
     public String toString() {
-        return "Cylinder{" +
+        return "Triangle{" +
                 "wood=" + getWood() +
                 ", side=" + side +
                 ", height=" + height +
