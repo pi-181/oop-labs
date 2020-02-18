@@ -1,21 +1,30 @@
 package com.demkom58.lab2.model;
 
-public class Cylinder extends Timber {
+public class Cylinder {
+    private Wood wood;
+    private float height;
+    private float diameter;
+
     public Cylinder(Wood wood, float height, float diameter) {
-        super(wood, diameter, height, diameter);
+        this.wood = wood;
+        this.height = height;
+        this.diameter = diameter;
     }
 
-    @Override
     public float volume() {
-        return (float) (Math.PI * Math.pow(getWidth() / 2d, 2d)) * getHeight();
+        return (float) (Math.PI * Math.pow(diameter / 2d, 2d)) * height;
+    }
+
+    public float weight() {
+        return volume() * wood.getDensity();
     }
 
     @Override
     public String toString() {
         return "Cylinder{" +
-                "wood=" + getWood() +
-                ", radius=" + getLength() +
-                ", height=" + getHeight() +
+                "wood=" + wood.getName() +
+                ", diameter=" + height +
+                ", height=" + height +
                 '}';
     }
 
