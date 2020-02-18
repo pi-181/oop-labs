@@ -1,4 +1,4 @@
-package test;
+package com.demkom58.lab1.test;
 
 import java.util.Scanner;
 

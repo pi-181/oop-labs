@@ -1,4 +1,4 @@
-package test;
+package com.demkom58.lab1.test;
 
 public class HelloWorld {
     public static void main(String[] args) {
