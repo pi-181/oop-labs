@@ -72,8 +72,14 @@ public class MainGui extends JFrame {
         expandAll();
     }
 
+    /**
+     * Shows detailed information
+     * about selected tree node to user.
+     *
+     * @param e event object.
+     */
     public void onTreeViewClick(MouseEvent e) {
-        if (e.getClickCount() != 3 || e.getButton() != MouseEvent.BUTTON3)
+        if (e.getClickCount() != 1 || e.getButton() != MouseEvent.BUTTON2)
             return;
 
         DefaultMutableTreeNode node = getSelectedNode();
@@ -85,6 +91,12 @@ public class MainGui extends JFrame {
         dlg.dispose();
     }
 
+    /**
+     * Shows to user gui for creating
+     * new node for selected as parent node.
+     *
+     * @param e event object.
+     */
     public void onAddAction(ActionEvent e) {
         final DefaultMutableTreeNode parent = getSelectedNode();
         if (parent == null)
@@ -114,6 +126,12 @@ public class MainGui extends JFrame {
         expandAll();
     }
 
+    /**
+     * Removes selected node from
+     * the tree.
+     *
+     * @param e event object.
+     */
     public void onRemoveAction(ActionEvent e) {
         final DefaultMutableTreeNode node = getSelectedNode();
         if (node == null)
@@ -125,6 +143,12 @@ public class MainGui extends JFrame {
         viewTree.updateUI();
     }
 
+    /**
+     * Shows edit gui to user, for
+     * the selected node in tree.
+     *
+     * @param e event object.
+     */
     public void onEditAction(ActionEvent e) {
         final DefaultMutableTreeNode node = getSelectedNode();
         if (node == null)
@@ -149,8 +173,17 @@ public class MainGui extends JFrame {
         viewTree.updateUI();
     }
 
+    /**
+     * Shows to user file selection gui,
+     * and then if possible saves all current
+     * data to selected by user file.
+     *
+     * @param e event object.
+     */
     public void onStoreAction(ActionEvent e) {
         final TreeModel model = viewTree.getModel();
+
+        // Check for tree empty.
         if (model == null || model.getRoot() == null) {
             JOptionPane.showMessageDialog(
                     this,
@@ -162,6 +195,7 @@ public class MainGui extends JFrame {
             return;
         }
 
+        // Forming file chooser gui.
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select file to save");
         fileChooser.setApproveButtonText("Save");
@@ -182,10 +216,12 @@ public class MainGui extends JFrame {
         if (selection != JFileChooser.APPROVE_OPTION)
             return;
 
+        // Extract selected file with spell check.
         File selectedFile = fileChooser.getSelectedFile();
         if (!selectedFile.getName().endsWith(".bin"))
             selectedFile = new File(selectedFile.getAbsolutePath(), selectedFile.getName() + ".bin");
 
+        // Writing current tree model to file.
         try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(selectedFile))) {
             stream.writeObject(viewTree.getModel());
         } catch (IOException ex) {
@@ -193,7 +229,15 @@ public class MainGui extends JFrame {
         }
     }
 
+    /**
+     * Shows to user file selection gui,
+     * and then if possible loads all data
+     * from the selected by user file.
+     *
+     * @param e event object.
+     */
     public void onRestoreAction(ActionEvent e) {
+        // Forming file chooser gui.
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select file to open.");
         fileChooser.setApproveButtonText("Open");
@@ -214,7 +258,10 @@ public class MainGui extends JFrame {
         if (selection != JFileChooser.APPROVE_OPTION)
             return;
 
+        // Getting user selected file.
         final File selectedFile = fileChooser.getSelectedFile();
+
+        // Writes data to file.
         try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(selectedFile))) {
             viewTree.setModel((TreeModel) stream.readObject());
         } catch (IOException | ClassCastException | ClassNotFoundException ex) {
@@ -231,6 +278,15 @@ public class MainGui extends JFrame {
         expandAll();
     }
 
+    /**
+     * Shows to user region with the biggest
+     * population of region.
+     * <p>
+     * Population of region is
+     * the sum of cities of this region.
+     *
+     * @param e event object.
+     */
     public void onBiggestRegionByPopulation(ActionEvent e) {
         final TreeModel model = viewTree.getModel();
         final Object root = model.getRoot();
@@ -238,15 +294,18 @@ public class MainGui extends JFrame {
         int maxPopulation = 0;
         DefaultMutableTreeNode max = null;
 
+        // Iterates over regions
         final int regionCount = model.getChildCount(root);
         for (int i = 0; i < regionCount; i++) {
             final Object regionNode = model.getChild(root, i);
             int population = 0;
 
+            // Iterates over districts
             final int districtCount = model.getChildCount(regionNode);
             for (int j = 0; j < districtCount; j++) {
                 final Object districtNode = model.getChild(regionNode, j);
 
+                // Iterates over cities
                 final int cityCount = model.getChildCount(districtNode);
                 for (int k = 0; k < cityCount; k++) {
                     final DefaultMutableTreeNode cityNode = (DefaultMutableTreeNode) model.getChild(districtNode, k);
@@ -270,6 +329,12 @@ public class MainGui extends JFrame {
         ((AnyData) max.getUserObject()).showDialog(false);
     }
 
+    /**
+     * Found district with the
+     * biggest count of village councils.
+     *
+     * @param e event object.
+     */
     public void onDistrictByMostVillageCouncils(ActionEvent e) {
         DefaultMutableTreeNode node = getSelectedNode();
         if (node == null)
