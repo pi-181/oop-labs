@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainGui extends JFrame {
     private JPanel rootPanel;
@@ -42,7 +43,11 @@ public class MainGui extends JFrame {
         setTitle("Wood Program");
 
         final DefaultListModel<IWoodDialog> listModel = new DefaultListModel<>();
-        listModel.addAll(Arrays.asList(dlgWaste, dlgCylinder, dlgTimber, dlgWood));
+		final List<IWoodDialog> dialogs = Arrays.asList(dlgWaste, dlgCylinder, dlgTimber, dlgWood);
+		
+		for (IWoodDialog dialog : dialogs)
+			listModel.addElement(dialog);
+
         dialogList.setModel(listModel);
         dialogList.addMouseListener(new MouseAdapter() {
             @Override
