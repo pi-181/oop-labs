@@ -12,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Optional;
 
 public class MainGui extends JFrame {
     private JPanel rootPanel;
@@ -42,12 +45,12 @@ public class MainGui extends JFrame {
 
         popupMenu = new JPopupMenu();
 
-        final JMenuItem searchBiggestRegionByPopulation = new JMenuItem("Find region with the largest population");
+        final JMenuItem searchBiggestRegionByPopulation = new JMenuItem("Show region with the largest population");
         searchBiggestRegionByPopulation.addActionListener(this::onBiggestRegionByPopulation);
         popupMenu.add(searchBiggestRegionByPopulation);
 
-        final JMenuItem searchDistrictWithMostVillageCouncils = new JMenuItem("Show district with most village councils");
-        searchDistrictWithMostVillageCouncils.addActionListener(this::onDistrictByMostVillageCouncils);
+        final JMenuItem searchDistrictWithMostVillageCouncils = new JMenuItem("Find city by mayor's name");
+        searchDistrictWithMostVillageCouncils.addActionListener(this::findCityByMayorName);
         popupMenu.add(searchDistrictWithMostVillageCouncils);
 
         addButton.addActionListener(this::onAddAction);
@@ -330,40 +333,47 @@ public class MainGui extends JFrame {
     }
 
     /**
-     * Found district with the
-     * biggest count of village councils.
+     * Search city by mayor's name.
+     * <p>
+     * Shows dialog to user in which writes mayor's name,
+     * then if it is ok, results will be shown to user.
      *
      * @param e event object.
      */
-    public void onDistrictByMostVillageCouncils(ActionEvent e) {
-        DefaultMutableTreeNode node = getSelectedNode();
-        if (node == null)
+    public void findCityByMayorName(ActionEvent e) {
+        final InputDlg inputDlg = new InputDlg("Mayor's name: ", "");
+        if (!inputDlg.isOk())
             return;
 
-        int maxCouncils = 0;
-        DefaultMutableTreeNode max = null;
+        final String name = Optional.ofNullable(inputDlg.createData()).orElse("");
+        final List<City> result = new ArrayList<>();
 
-        Enumeration<TreeNode> enm = node.postorderEnumeration();
-        while (enm.hasMoreElements()) {
-            final DefaultMutableTreeNode current = (DefaultMutableTreeNode) enm.nextElement();
-            final Object data = current.getUserObject();
-            if (!(data instanceof District))
-                continue;
+        DefaultMutableTreeNode root = ((DefaultMutableTreeNode) viewTree.getModel().getRoot());
+        Enumeration<DefaultMutableTreeNode> regionEnum = root.children();
 
-            int councils = ((District) data).getVillageCouncils();
-            if (councils > maxCouncils) {
-                maxCouncils = councils;
-                max = current;
+        while (regionEnum.hasMoreElements()) {
+            DefaultMutableTreeNode regionNode = regionEnum.nextElement();
+            Enumeration<DefaultMutableTreeNode> districtEnum = regionNode.children();
+
+            while (districtEnum.hasMoreElements()) {
+                DefaultMutableTreeNode districtNode = districtEnum.nextElement();
+                Enumeration<DefaultMutableTreeNode> cityEnum = districtNode.children();
+
+                while (cityEnum.hasMoreElements()) {
+                    DefaultMutableTreeNode cityNode = cityEnum.nextElement();
+                    City city = (City) cityNode.getUserObject();
+                    if (name.equalsIgnoreCase(city.getMayor()))
+                        result.add(city);
+                }
             }
         }
 
-        if (max == null) {
-            JOptionPane.showMessageDialog(viewTree, "Nothing found!", "Error", JOptionPane.ERROR_MESSAGE);
+        if (result.isEmpty()) {
+            JOptionPane.showMessageDialog(viewTree, "City nodes with that name not found!", "No results!", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
-        selectNode(max);
-        ((AnyData) max.getUserObject()).showDialog(false);
+        result.forEach(city -> city.showDialog(false));
     }
 
     public TreeModel getDefaultTreeModel() {
