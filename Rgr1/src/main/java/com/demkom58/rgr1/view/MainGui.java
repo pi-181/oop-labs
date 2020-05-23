@@ -216,7 +216,7 @@ public class MainGui extends JFrame {
 
             @Override
             public String getDescription() {
-                return "Wood storage data - .wood";
+                return "Bin storage data - .bin";
             }
         });
 
