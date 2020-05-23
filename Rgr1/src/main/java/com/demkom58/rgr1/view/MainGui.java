@@ -208,18 +208,6 @@ public class MainGui extends JFrame {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select file to save");
         fileChooser.setApproveButtonText("Save");
-        fileChooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return !f.isDirectory() && f.getName().endsWith(".bin");
-            }
-
-            @Override
-            public String getDescription() {
-                return "Bin storage data - .bin";
-            }
-        });
-
         fileChooser.setMultiSelectionEnabled(false);
         final int selection = fileChooser.showSaveDialog(this);
         if (selection != JFileChooser.APPROVE_OPTION)
