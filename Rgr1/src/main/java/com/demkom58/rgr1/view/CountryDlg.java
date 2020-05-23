@@ -1,6 +1,5 @@
 package com.demkom58.rgr1.view;
 
-import com.demkom58.rgr1.model.AnyData;
 import com.demkom58.rgr1.model.Country;
 import org.jetbrains.annotations.Nullable;
 

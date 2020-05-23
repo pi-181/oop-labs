@@ -1,11 +1,9 @@
 package com.demkom58.rgr1.view;
 
-import com.demkom58.rgr1.model.AnyData;
 import com.demkom58.rgr1.model.District;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.*;
 
 public class DistrictDlg extends Dlg<District> {
     protected JPanel contentPane;

@@ -1,8 +1,6 @@
 package com.demkom58.rgr1.model;
 
-import com.demkom58.rgr1.view.CountryDlg;
 import com.demkom58.rgr1.view.DistrictDlg;
-import com.demkom58.rgr1.view.Dlg;
 import com.demkom58.rgr1.view.RegionDlg;
 import org.jetbrains.annotations.NotNull;
 

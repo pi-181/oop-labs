@@ -1,6 +1,7 @@
 package com.demkom58.rgr1.model;
 
-import com.demkom58.rgr1.view.*;
+import com.demkom58.rgr1.view.CityDlg;
+import com.demkom58.rgr1.view.DistrictDlg;
 import org.jetbrains.annotations.NotNull;
 
 public class District extends AnyData {
