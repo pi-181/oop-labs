@@ -1,4 +1,15 @@
-mainClassName = "com.demkom58.lab2.Main"
+application {
+    mainClassName = "com.demkom58.lab2.Main"
+}
 
 dependencies {
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': application.mainClassName)
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

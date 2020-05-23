@@ -1,4 +1,6 @@
-mainClassName = "com.demkom58.lab6.Main"
+application {
+    mainClassName = "com.demkom58.lab6.Main"
+}
 
 repositories {
     flatDir dirs: "./../lib"
@@ -36,4 +38,13 @@ compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+jar {
+    manifest {
+        attributes('Main-Class': application.mainClassName)
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
