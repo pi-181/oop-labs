@@ -96,7 +96,7 @@ public class MainGui extends JFrame {
             return;
 
         AnyData data = (AnyData) node.getUserObject();
-        Dlg dlg = data.showDialog(false);
+        Dlg<? extends AnyData> dlg = data.showDialog(false);
         dlg.dispose();
     }
 
