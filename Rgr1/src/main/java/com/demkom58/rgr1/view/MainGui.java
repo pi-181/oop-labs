@@ -31,13 +31,6 @@ public class MainGui extends JFrame {
     private JPopupMenu popupMenu;
 
     public MainGui() {
-        // set default system theme
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         setContentPane(rootPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(400, 300);
