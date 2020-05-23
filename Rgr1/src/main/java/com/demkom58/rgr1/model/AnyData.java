@@ -3,7 +3,9 @@ package com.demkom58.rgr1.model;
 import com.demkom58.rgr1.view.Dlg;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AnyData {
+import java.io.Serializable;
+
+public abstract class AnyData implements Serializable {
     protected String name;
 
     public AnyData(@NotNull final String name) {
