@@ -103,7 +103,7 @@ public class MainGui extends JFrame {
             return;
 
         AnyData parentData = (AnyData) parent.getUserObject();
-        Dlg dlg = parentData.showSonDialog();
+        Dlg<? extends AnyData> dlg = parentData.showSonDialog();
         if (dlg == null)
             return;
 
@@ -155,7 +155,7 @@ public class MainGui extends JFrame {
             return;
 
         AnyData data = (AnyData) node.getUserObject();
-        Dlg dlg = data.showDialog(true);
+        Dlg<? extends AnyData> dlg = data.showDialog(true);
 
         AnyData editData;
         try {

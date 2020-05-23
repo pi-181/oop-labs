@@ -26,16 +26,16 @@ public class Country extends AnyData {
     }
 
     @Override
-    public Dlg showDialog(boolean editable) {
-        final Dlg dlg = new CountryDlg(this);
+    public CountryDlg showDialog(boolean editable) {
+        final CountryDlg dlg = new CountryDlg(this);
         dlg.setEditable(editable);
         dlg.setVisible(true);
         return dlg;
     }
 
     @Override
-    public Dlg showSonDialog() {
-        final Dlg dlg = new RegionDlg();
+    public RegionDlg showSonDialog() {
+        final RegionDlg dlg = new RegionDlg();
         dlg.setVisible(true);
         return dlg;
     }

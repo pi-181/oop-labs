@@ -1,14 +1,15 @@
 package com.demkom58.rgr1.view;
 
-import com.demkom58.rgr1.model.AnyData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public abstract class Dlg extends JDialog {
+public abstract class Dlg<DATA> extends JDialog {
     private JPanel contentPane;
 
     private JButton buttonOK;
@@ -58,7 +59,7 @@ public abstract class Dlg extends JDialog {
     }
 
     @Nullable
-    public abstract AnyData createData() throws Exception;
+    public abstract DATA createData() throws Exception;
 
     public void setEditable(boolean editable) {
         buttonOK.setVisible(editable);

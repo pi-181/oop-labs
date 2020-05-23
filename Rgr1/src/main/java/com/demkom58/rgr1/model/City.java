@@ -25,15 +25,15 @@ public class City extends AnyData {
     }
 
     @Override
-    public Dlg showDialog(boolean editable) {
-        final Dlg dlg = new CityDlg(this);
+    public CityDlg showDialog(boolean editable) {
+        final CityDlg dlg = new CityDlg(this);
         dlg.setEditable(editable);
         dlg.setVisible(true);
         return dlg;
     }
 
     @Override
-    public Dlg showSonDialog() {
+    public Dlg<AnyData> showSonDialog() {
         return null;
     }
 }

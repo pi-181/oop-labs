@@ -1,3 +1,7 @@
+plugins {
+    id 'application'
+}
+
 mainClassName = "com.demkom58.rgr1.Main"
 
 repositories {

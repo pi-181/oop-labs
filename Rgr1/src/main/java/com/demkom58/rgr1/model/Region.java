@@ -34,16 +34,16 @@ public class Region extends AnyData {
     }
 
     @Override
-    public Dlg showDialog(boolean editable) {
-        final Dlg dlg = new RegionDlg(this);
+    public RegionDlg showDialog(boolean editable) {
+        final RegionDlg dlg = new RegionDlg(this);
         dlg.setEditable(editable);
         dlg.setVisible(true);
         return dlg;
     }
 
     @Override
-    public Dlg showSonDialog() {
-        final Dlg dlg = new DistrictDlg();
+    public DistrictDlg showSonDialog() {
+        final DistrictDlg dlg = new DistrictDlg();
         dlg.setVisible(true);
         return dlg;
     }

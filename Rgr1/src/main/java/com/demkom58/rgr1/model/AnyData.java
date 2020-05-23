@@ -19,8 +19,8 @@ public abstract class AnyData {
         return name;
     }
 
-    public abstract Dlg showDialog(boolean editable);
+    public abstract Dlg<? extends AnyData> showDialog(boolean editable);
 
-    public abstract Dlg showSonDialog();
+    public abstract Dlg<? extends AnyData> showSonDialog();
 
 }

@@ -24,16 +24,16 @@ public class District extends AnyData {
     }
 
     @Override
-    public Dlg showDialog(boolean editable) {
-        final Dlg dlg = new DistrictDlg(this);
+    public DistrictDlg showDialog(boolean editable) {
+        final DistrictDlg dlg = new DistrictDlg(this);
         dlg.setEditable(editable);
         dlg.setVisible(true);
         return dlg;
     }
 
     @Override
-    public Dlg showSonDialog() {
-        final Dlg dlg = new CityDlg();
+    public CityDlg showSonDialog() {
+        final CityDlg dlg = new CityDlg();
         dlg.setVisible(true);
         return dlg;
     }

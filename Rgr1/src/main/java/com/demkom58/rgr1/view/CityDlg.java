@@ -1,13 +1,11 @@
 package com.demkom58.rgr1.view;
 
-import com.demkom58.rgr1.model.AnyData;
 import com.demkom58.rgr1.model.City;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.*;
 
-public class CityDlg extends Dlg {
+public class CityDlg extends Dlg<City> {
     protected JPanel contentPane;
 
     protected JButton buttonOK;
@@ -30,7 +28,7 @@ public class CityDlg extends Dlg {
 
     @Override
     @Nullable
-    public AnyData createData() throws Exception {
+    public City createData() throws Exception {
         if (!isOk())
             return null;
 

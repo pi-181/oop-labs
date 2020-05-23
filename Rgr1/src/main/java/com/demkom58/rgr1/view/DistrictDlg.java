@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class DistrictDlg extends Dlg {
+public class DistrictDlg extends Dlg<District> {
     protected JPanel contentPane;
 
     protected JButton buttonOK;
@@ -31,7 +31,7 @@ public class DistrictDlg extends Dlg {
 
     @Override
     @Nullable
-    public AnyData createData() throws Exception {
+    public District createData() throws Exception {
         if (!isOk())
             return null;
 

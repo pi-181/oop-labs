@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class RegionDlg extends Dlg {
+public class RegionDlg extends Dlg<Region> {
     protected JPanel contentPane;
 
     protected JButton buttonOK;
@@ -33,7 +33,7 @@ public class RegionDlg extends Dlg {
 
     @Override
     @Nullable
-    public AnyData createData() throws Exception {
+    public Region createData() throws Exception {
         if (!isOk())
             return null;
 
