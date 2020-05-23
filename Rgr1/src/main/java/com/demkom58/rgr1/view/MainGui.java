@@ -401,8 +401,10 @@ public class MainGui extends JFrame {
     @Nullable
     private DefaultMutableTreeNode getSelectedNode() {
         Object selectedNode = viewTree.getLastSelectedPathComponent();
-        if (selectedNode == null)
+        if (selectedNode == null) {
             JOptionPane.showMessageDialog(viewTree, "Select node at first!", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
 
         return (DefaultMutableTreeNode) selectedNode;
     }
