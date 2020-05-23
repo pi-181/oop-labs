@@ -40,6 +40,10 @@ public class RegionDlg extends Dlg<Region> {
         if (!isOk())
             return null;
 
+        if (nameField.getText().isEmpty()) throw new IllegalArgumentException("Name of region can't be empty!");
+        if (governorField.getText().isEmpty()) throw new IllegalArgumentException("Name of Governor can't be empty!");
+        if (adminCenterField.getText().isEmpty()) throw new IllegalArgumentException("Name of admin center can't be empty!");
+
         return new Region(
                 nameField.getText(),
                 governorField.getText(),

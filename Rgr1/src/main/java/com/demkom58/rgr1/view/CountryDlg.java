@@ -38,6 +38,10 @@ public class CountryDlg extends Dlg<Country> {
         if (!isOk())
             return null;
 
+        if (nameField.getText().isEmpty()) throw new IllegalArgumentException("Name of city can't be empty!");
+        if (presidentField.getText().isEmpty()) throw new IllegalArgumentException("Name of president can't be empty!");
+        if (capitalField.getText().isEmpty()) throw new IllegalArgumentException("Name of capital can't be empty!");
+
         return new Country(
                 nameField.getText(),
                 presidentField.getText(),

@@ -36,6 +36,9 @@ public class CityDlg extends Dlg<City> {
         if (!isOk())
             return null;
 
+        if (nameField.getText().isEmpty()) throw new IllegalArgumentException("Name of city can't be empty!");
+        if (mayorField.getText().isEmpty()) throw new IllegalArgumentException("Name of mayor can't be empty!");
+
         return new City(
                 nameField.getText(),
                 Integer.parseInt(populationField.getText()),

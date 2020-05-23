@@ -39,6 +39,9 @@ public class DistrictDlg extends Dlg<District> {
         if (!isOk())
             return null;
 
+        if (nameField.getText().isEmpty()) throw new IllegalArgumentException("Name of district can't be empty!");
+        if (adminCenterField.getText().isEmpty()) throw new IllegalArgumentException("Name of admin center can't be empty!");
+
         return new District(
                 nameField.getText(),
                 Integer.parseInt(villageCouncilsField.getText()),
