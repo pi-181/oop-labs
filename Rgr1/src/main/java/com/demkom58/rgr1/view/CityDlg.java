@@ -26,9 +26,13 @@ public class CityDlg extends Dlg<City> {
         mayorField.setText(city.getMayor());
     }
 
+
+    /**
+     * @return user data entered in dialog window in dialog data class representation.
+     */
     @Override
     @Nullable
-    public City createData() throws Exception {
+    public City createData() {
         if (!isOk())
             return null;
 

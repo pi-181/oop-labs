@@ -28,6 +28,10 @@ public class CountryDlg extends Dlg<Country> {
         capitalField.setText(country.getCapital());
     }
 
+
+    /**
+     * @return user data entered in dialog window in dialog data class representation.
+     */
     @Override
     @Nullable
     public Country createData() throws Exception {

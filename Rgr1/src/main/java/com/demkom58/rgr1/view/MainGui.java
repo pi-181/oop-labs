@@ -31,6 +31,7 @@ public class MainGui extends JFrame {
     private JPopupMenu popupMenu;
 
     public MainGui() {
+        // set default system theme
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -45,6 +46,7 @@ public class MainGui extends JFrame {
 
         popupMenu = new JPopupMenu();
 
+        // crates item for popup menu
         final JMenuItem searchBiggestRegionByPopulation = new JMenuItem("Show region with the largest population");
         searchBiggestRegionByPopulation.addActionListener(this::onBiggestRegionByPopulation);
         popupMenu.add(searchBiggestRegionByPopulation);
@@ -53,11 +55,14 @@ public class MainGui extends JFrame {
         searchDistrictWithMostVillageCouncils.addActionListener(this::findCityByMayorName);
         popupMenu.add(searchDistrictWithMostVillageCouncils);
 
+        // let's set listeners for buttons
         addButton.addActionListener(this::onAddAction);
         removeButton.addActionListener(this::onRemoveAction);
         editButton.addActionListener(this::onEditAction);
         storeButton.addActionListener(this::onStoreAction);
         restoreButton.addActionListener(this::onRestoreAction);
+
+        // listener to show popup on click
         calculateButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -71,6 +76,7 @@ public class MainGui extends JFrame {
             }
         });
 
+        // set default model to our tree
         viewTree.setModel(getDefaultTreeModel());
         expandAll();
     }
@@ -349,16 +355,19 @@ public class MainGui extends JFrame {
         final List<City> result = new ArrayList<>();
 
         DefaultMutableTreeNode root = ((DefaultMutableTreeNode) viewTree.getModel().getRoot());
-        Enumeration<DefaultMutableTreeNode> regionEnum = root.children();
+        Enumeration<DefaultMutableTreeNode> regionEnum = root.children(); // country node children
 
+        // iterates over regions
         while (regionEnum.hasMoreElements()) {
             DefaultMutableTreeNode regionNode = regionEnum.nextElement();
             Enumeration<DefaultMutableTreeNode> districtEnum = regionNode.children();
 
+            // Iterates over districts
             while (districtEnum.hasMoreElements()) {
                 DefaultMutableTreeNode districtNode = districtEnum.nextElement();
                 Enumeration<DefaultMutableTreeNode> cityEnum = districtNode.children();
 
+                // iterates over cities
                 while (cityEnum.hasMoreElements()) {
                     DefaultMutableTreeNode cityNode = cityEnum.nextElement();
                     City city = (City) cityNode.getUserObject();
@@ -376,6 +385,9 @@ public class MainGui extends JFrame {
         result.forEach(city -> city.showDialog(false));
     }
 
+    /**
+     * Creates default model of tree
+     */
     public TreeModel getDefaultTreeModel() {
         final Country country = new Country("Україна", "Зеленський Володимир Олександрович", "Київ");
         final Region region = new Region("Чернігівська область", "Андрій Леонідович Прокопенко", 31_903, "Чернігов");
@@ -394,6 +406,10 @@ public class MainGui extends JFrame {
         return new JTree(countryNode).getModel();
     }
 
+    /**
+     * Returns selected node by user.
+     * @return selected node
+     */
     @Nullable
     private DefaultMutableTreeNode getSelectedNode() {
         Object selectedNode = viewTree.getLastSelectedPathComponent();
@@ -403,11 +419,17 @@ public class MainGui extends JFrame {
         return (DefaultMutableTreeNode) selectedNode;
     }
 
+    /**
+     * Opens all rows
+     */
     private void expandAll() {
         for (int i = 0; i < viewTree.getRowCount(); i++)
             viewTree.expandRow(i);
     }
 
+    /**
+     * Sets selection to node in tree's model
+     */
     private void selectNode(DefaultMutableTreeNode node) {
         int n = 0;
 

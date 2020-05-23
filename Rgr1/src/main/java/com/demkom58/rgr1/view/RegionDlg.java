@@ -31,6 +31,9 @@ public class RegionDlg extends Dlg<Region> {
         adminCenterField.setText(region.getAdminCenter());
     }
 
+    /**
+     * @return user data entered in dialog window in dialog data class representation.
+     */
     @Override
     @Nullable
     public Region createData() throws Exception {

@@ -29,6 +29,10 @@ public class DistrictDlg extends Dlg<District> {
         adminCenterField.setText(district.getAdminCenter());
     }
 
+
+    /**
+     * @return user data entered in dialog window in dialog data class representation.
+     */
     @Override
     @Nullable
     public District createData() throws Exception {

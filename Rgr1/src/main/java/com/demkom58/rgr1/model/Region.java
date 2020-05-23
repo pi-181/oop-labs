@@ -25,14 +25,28 @@ public class Region extends AnyData {
         return square;
     }
 
+    /**
+     * Getter for admin center of region.
+     * @return not null value of admin center.
+     */
     public String getAdminCenter() {
         return adminCenter;
     }
 
+    /**
+     * Getter for governor of region.
+     * @return not null value of governor's name.
+     */
     public String getGovernor() {
         return governor;
     }
 
+    /**
+     * Shows dialog of data to user.
+     *
+     * @param editable true if it is editable.
+     * @return dialog object
+     */
     @Override
     public RegionDlg showDialog(boolean editable) {
         final RegionDlg dlg = new RegionDlg(this);
@@ -41,6 +55,11 @@ public class Region extends AnyData {
         return dlg;
     }
 
+    /**
+     * Shows son dialog, if it exist.
+     *
+     * @return null if dialog not exist else dialog of son.
+     */
     @Override
     public DistrictDlg showSonDialog() {
         final DistrictDlg dlg = new DistrictDlg();

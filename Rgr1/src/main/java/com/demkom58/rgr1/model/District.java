@@ -19,10 +19,20 @@ public class District extends AnyData {
         return villageCouncils;
     }
 
+    /**
+     * Getter for admin canter.
+     * @return not null value of admin center of district.
+     */
     public String getAdminCenter() {
         return adminCenter;
     }
 
+    /**
+     * Shows dialog of data to user.
+     *
+     * @param editable true if it is editable.
+     * @return dialog object
+     */
     @Override
     public DistrictDlg showDialog(boolean editable) {
         final DistrictDlg dlg = new DistrictDlg(this);
@@ -31,6 +41,11 @@ public class District extends AnyData {
         return dlg;
     }
 
+    /**
+     * Shows son dialog, if it exist.
+     *
+     * @return null if dialog not exist else dialog of son.
+     */
     @Override
     public CityDlg showSonDialog() {
         final CityDlg dlg = new CityDlg();

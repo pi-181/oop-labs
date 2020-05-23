@@ -9,6 +9,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Common data dialog logic class.
+ *
+ * @param <DATA> generic of data class
+ */
 public abstract class Dlg<DATA> extends JDialog {
     private JPanel contentPane;
 
@@ -16,9 +21,16 @@ public abstract class Dlg<DATA> extends JDialog {
     private JButton buttonCancel;
     private boolean ok;
 
+    /**
+     * Configurator method
+     *
+     * @param contentPane  root content pane of dialog object
+     * @param buttonOK     ok button instance
+     * @param buttonCancel cancel button instance
+     */
     public void setup(@NotNull final JPanel contentPane,
-               @NotNull final JButton buttonOK,
-               @NotNull final JButton buttonCancel) {
+                      @NotNull final JButton buttonOK,
+                      @NotNull final JButton buttonCancel) {
         this.contentPane = contentPane;
         this.buttonOK = buttonOK;
         this.buttonCancel = buttonCancel;
@@ -48,19 +60,36 @@ public abstract class Dlg<DATA> extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Ok result processor.
+     */
     protected void onOK() {
         ok = true;
         setVisible(false);
     }
 
+    /**
+     * Cancel result processor.
+     */
     protected void onCancel() {
         ok = false;
         setVisible(false);
     }
 
+    /**
+     * Abstract method extractor of received data.
+     *
+     * @return user data
+     * @throws Exception on error in delegate occurred
+     */
     @Nullable
     public abstract DATA createData() throws Exception;
 
+    /**
+     * Changes editable state of dialog
+     *
+     * @param editable true to make dialog editable
+     */
     public void setEditable(boolean editable) {
         buttonOK.setVisible(editable);
 
@@ -73,6 +102,11 @@ public abstract class Dlg<DATA> extends JDialog {
             component.setEnabled(editable);
     }
 
+    /**
+     * Getter for result state
+     *
+     * @return true when user pressed ok button
+     */
     public boolean isOk() {
         return ok;
     }

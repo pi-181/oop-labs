@@ -4,6 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
+/**
+ * Dialog single text field class.
+ */
 public class InputDlg extends Dlg<String> {
     protected JPanel contentPane;
 
@@ -24,6 +27,9 @@ public class InputDlg extends Dlg<String> {
         setVisible(true);
     }
 
+    /**
+     * @return user data entered in dialog window
+     */
     @Override
     @Nullable
     public String createData() {
