@@ -36,7 +36,7 @@ public class MainGui extends JFrame {
         setTitle("Wood Program");
 
         final DefaultListModel<IWoodDialog> listModel = new DefaultListModel<>();
-        listModel.addAll(Arrays.asList(dlgWaste, dlgCylinder, dlgTimber, dlgWood));
+        Arrays.asList(dlgWaste, dlgCylinder, dlgTimber, dlgWood).forEach(listModel::addElement);
         dialogList.setModel(listModel);
         dialogList.addMouseListener(new MouseAdapter() {
             @Override
