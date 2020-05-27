@@ -40,7 +40,7 @@ public class MainView extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(600, 300);
         setLocationRelativeTo(null);
-        setTitle("Exam Task | Демиденко М.Б. - ПІ-181");
+        setTitle("ExTask");
 
         circleButton.addActionListener(this::onCircleAdd);
         rectangleButton.addActionListener(this::onRectangleAdd);
