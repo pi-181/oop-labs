@@ -86,6 +86,7 @@ public class Timber extends AbstractForm {
                 ", length=" + length +
                 ", height=" + height +
                 ", width=" + width +
+                ", weight=" + weight() +
                 '}';
     }
 }
