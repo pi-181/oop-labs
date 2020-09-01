@@ -48,6 +48,12 @@ public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
             consumer.accept(t);
     }
 
+    public void doOnlyFor(Predicate<T> condition, Consumer<T> action) {
+        for (T t : this)
+            if (condition.test(t))
+                action.accept(t);
+    }
+
     @NotNull
     @Override
     public Iterator<T> iterator() {

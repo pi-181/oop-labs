@@ -22,5 +22,18 @@ public class TestApp {
         store.doForAll(System.out::println);
     }
 
+    @Test
+    public void doOnlyForTest() throws Exception {
+        ProductStore store = new ProductStore();
+        WoodDirectory directory = new WoodDirectory();
+
+        store.add(new Timber(directory.getById(1), 5f, 1f, 5f));
+        store.add(new Timber(directory.getById(1), 9f, 3f, 7f));
+        store.add(new Timber(directory.getById(2), 6f, 2f, 8f));
+        store.add(new Timber(directory.getById(3), 10f, 6f, 6f));
+
+        store.doOnlyFor(o -> o.weight() > 30, System.out::println);
+    }
+
 }
 
