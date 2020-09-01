@@ -10,10 +10,10 @@ public class TestApp {
         ProductStore store = new ProductStore();
         WoodDirectory directory = new WoodDirectory();
 
-        store.add(new Timber(directory.getById(1), 5f, 1f, 5f));
-        store.add(new Timber(directory.getById(1), 9f, 3f, 7f));
-        store.add(new Timber(directory.getById(2), 6f, 2f, 8f));
-        store.add(new Timber(directory.getById(3), 10f, 6f, 6f));
+        store.add(new Timber(directory.get(1), 5f, 1f, 5f));
+        store.add(new Timber(directory.get(1), 9f, 3f, 7f));
+        store.add(new Timber(directory.get(2), 6f, 2f, 8f));
+        store.add(new Timber(directory.get(3), 10f, 6f, 6f));
 
         System.out.println("Content:");
         store.doForAll(System.out::println);
@@ -27,10 +27,10 @@ public class TestApp {
         ProductStore store = new ProductStore();
         WoodDirectory directory = new WoodDirectory();
 
-        store.add(new Timber(directory.getById(1), 5f, 1f, 5f));
-        store.add(new Timber(directory.getById(1), 9f, 3f, 7f));
-        store.add(new Timber(directory.getById(2), 6f, 2f, 8f));
-        store.add(new Timber(directory.getById(3), 10f, 6f, 6f));
+        store.add(new Timber(directory.get(1), 5f, 1f, 5f));
+        store.add(new Timber(directory.get(1), 9f, 3f, 7f));
+        store.add(new Timber(directory.get(2), 6f, 2f, 8f));
+        store.add(new Timber(directory.get(3), 10f, 6f, 6f));
 
         store.doOnlyFor(o -> o.weight() > 30, System.out::println);
     }

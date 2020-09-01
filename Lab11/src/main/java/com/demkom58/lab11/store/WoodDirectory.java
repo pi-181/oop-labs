@@ -20,7 +20,7 @@ public class WoodDirectory extends AbstractStore<Wood> {
 
     @Override
     public boolean add(Wood wood) {
-        if (getById(wood.getId()) != null)
+        if (get(wood.getId()) != null)
             return false;
 
         map.put(wood.getId(), wood);
@@ -28,8 +28,8 @@ public class WoodDirectory extends AbstractStore<Wood> {
     }
 
     @Override
-    public Wood get(int index) {
-        return getById(index);
+    public Wood get(int id) {
+        return map.get(id);
     }
 
     @Override
@@ -40,11 +40,6 @@ public class WoodDirectory extends AbstractStore<Wood> {
     @Override
     public @NotNull Iterator<Wood> iterator() {
         return map.values().iterator();
-    }
-
-    @Nullable
-    public Wood getById(int id) {
-        return map.get(id);
     }
 
     @Override

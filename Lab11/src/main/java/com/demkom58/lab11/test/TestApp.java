@@ -12,9 +12,9 @@ public class TestApp {
     private ProductStore productStore = new ProductStore();
 
     public void startApp() throws Exception {
-        productStore.add(new Timber(woodDirectory.getById(1), 5f, 2f, 7f));
-        productStore.add(new Timber(woodDirectory.getById(2), 10f, 2f, 6f));
-        productStore.add(new Cylinder(woodDirectory.getById(3), 5f, 6f));
+        productStore.add(new Timber(woodDirectory.get(1), 5f, 2f, 7f));
+        productStore.add(new Timber(woodDirectory.get(2), 10f, 2f, 6f));
+        productStore.add(new Cylinder(woodDirectory.get(3), 5f, 6f));
         productStore.add(new Waste(20f));
 
         System.out.println(woodDirectory);

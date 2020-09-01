@@ -16,14 +16,16 @@ public class WoodDirectory extends AbstractStore<Wood> {
 
     @Override
     public boolean add(Wood wood) {
-        if (getById(wood.getId()) != null)
+        if (get(wood.getId()) != null)
             return false;
 
         return super.add(wood);
     }
 
+
     @Nullable
-    public Wood getById(int id) {
+    @Override
+    public Wood get(int id) {
         for (Wood wood : this) {
             if (wood.getId() == id)
                 return wood;

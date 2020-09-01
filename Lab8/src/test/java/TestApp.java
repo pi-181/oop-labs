@@ -16,10 +16,10 @@ public class TestApp {
         ProductStore store = new ProductStore();
         WoodDirectory directory = new WoodDirectory();
 
-        store.add(new Timber(directory.getById(1), 5f, 1f, 5f));
-        store.add(new Timber(directory.getById(1), 9f, 3f, 7f));
-        store.add(new Timber(directory.getById(2), 6f, 2f, 8f));
-        store.add(new Timber(directory.getById(3), 10f, 6f, 6f));
+        store.add(new Timber(directory.get(1), 5f, 1f, 5f));
+        store.add(new Timber(directory.get(1), 9f, 3f, 7f));
+        store.add(new Timber(directory.get(2), 6f, 2f, 8f));
+        store.add(new Timber(directory.get(3), 10f, 6f, 6f));
 
         System.out.println("Перелік виробів до вилучення: \n" + store.toString());
 
@@ -39,9 +39,9 @@ public class TestApp {
         ProductStore store = new ProductStore();
         WoodDirectory directory = new WoodDirectory();
 
-        store.add(new Timber(directory.getById(1), 5f, 1f, 5f));
-        store.add(new Timber(directory.getById(1), 9f, 3f, 7f));
-        store.add(new Timber(directory.getById(2), 6f, 2f, 8f));
+        store.add(new Timber(directory.get(1), 5f, 1f, 5f));
+        store.add(new Timber(directory.get(1), 9f, 3f, 7f));
+        store.add(new Timber(directory.get(2), 6f, 2f, 8f));
 
         System.out.println("Перелік виробів до вилучення: \n" + store.toString());
 
@@ -58,9 +58,9 @@ public class TestApp {
         System.out.println("Перелік виробів після вилучення: \n" + store.toString());
 
         Arrays.asList(
-                new Timber(directory.getById(1), 5f, 1f, 5f),
-                new Timber(directory.getById(2), 5f, 1f, 5f),
-                new Timber(directory.getById(3), 5f, 1f, 5f)
+                new Timber(directory.get(1), 5f, 1f, 5f),
+                new Timber(directory.get(2), 5f, 1f, 5f),
+                new Timber(directory.get(3), 5f, 1f, 5f)
         ).forEach(iterator::add);
         System.out.println("Перелік виробів після заповнення: \n" + store.toString());
 
