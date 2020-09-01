@@ -1,50 +1,40 @@
 package com.demkom58.lab8.store;
 
 import com.demkom58.lab8.model.Wood;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
-public class WoodDirectory implements Serializable {
-    private Wood[] arr = new Wood[3];
-    private int count;
+public class WoodDirectory extends AbstractStore<Wood> {
 
-    {
-        arr[0] = new Wood(1, "Модрина", 1.1f);
-        arr[1] = new Wood(2, "Ялина", 0.9f);
-        arr[2] = new Wood(3, "Сосна", 0.7f);
-        count = arr.length;
+    public WoodDirectory() {
+        super("Каталог деревини");
+        add(new Wood(1, "Модрина", 1.1f));
+        add(new Wood(2, "Ялина", 0.9f));
+        add(new Wood(3, "Сосна", 0.7f));
     }
 
-    public Wood get(int id) {
-        for (Wood wood : arr)
+    @Override
+    public boolean add(Wood wood) {
+        if (getById(wood.getId()) != null)
+            return false;
+
+        return super.add(wood);
+    }
+
+    @Nullable
+    public Wood getById(int id) {
+        for (Wood wood : this) {
             if (wood.getId() == id)
                 return wood;
+        }
 
         return null;
     }
 
-    public boolean add(Wood wood) {
-        if (get(wood.getId()) != null)
-            return false;
-
-        if (arr.length == count)
-            arr = Arrays.copyOf(arr, count + count / 2);
-
-        arr[count++] = wood;
-        return true;
-    }
-
-    public Wood[] getArr() {
-        return Arrays.copyOf(arr, count);
-    }
-
     @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder("Каталог деревини: \n");
-        for (int i = 0; i < count; i++)
-            builder.append(arr[i]).append("\n");
-
-        return builder.toString();
+    public Wood[] getArr() {
+        return Arrays.copyOf(arr, count, Wood[].class);
     }
+
 }

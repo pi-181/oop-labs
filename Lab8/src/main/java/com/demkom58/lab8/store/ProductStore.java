@@ -4,26 +4,28 @@ import com.demkom58.lab8.event.IProductListener;
 import com.demkom58.lab8.event.ProductEvent;
 import com.demkom58.lab8.model.IWeight;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ProductStore implements Serializable {
+public class ProductStore extends AbstractStore<IWeight> {
     private final Object monitor = new Object();
+    private final List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
 
-    private List<IWeight> arr = new ArrayList<>();
-    private List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
-
-    public void add(IWeight abstractForm) {
-        synchronized (monitor) {
-            arr.add(abstractForm);
-            fireProductListener(new ProductEvent(this , abstractForm));
-        }
+    public ProductStore() {
+        super("Каталог виробів");
     }
 
-    public IWeight[] getArr() {
-        return arr.toArray(new IWeight[0]);
+    @Override
+    public boolean add(IWeight abstractForm) {
+        final boolean result;
+
+        synchronized (monitor) {
+            result = super.add(abstractForm);
+            fireProductListener(new ProductEvent(this , abstractForm));
+        }
+
+        return result;
     }
 
     public void addProductListener(IProductListener listener) {
@@ -39,11 +41,8 @@ public class ProductStore implements Serializable {
     }
 
     @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder("Каталог виробів: \n");
-        for (IWeight iWeight : arr)
-            builder.append(iWeight).append("\n");
-
-        return builder.toString();
+    public IWeight[] getArr() {
+        return Arrays.copyOf(arr, count, IWeight[].class);
     }
+
 }
