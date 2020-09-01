@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
@@ -31,6 +32,20 @@ public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
             throw new IndexOutOfBoundsException(index + " element requested, when it's contain only " + count);
 
         return (T) arr[index];
+    }
+
+    public void remove(Predicate<T> condition) {
+        final Iterator<T> iterator = iterator();
+        while (iterator.hasNext()) {
+            if (condition.test(iterator.next())) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public void doForAll(Consumer<T> consumer) {
+        for (T t : this)
+            consumer.accept(t);
     }
 
     @NotNull
