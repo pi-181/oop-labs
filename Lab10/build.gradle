@@ -2,7 +2,42 @@ application {
     mainClassName = "com.demkom58.lab10.Main"
 }
 
+repositories {
+    flatDir dirs: "./../lib"
+    mavenCentral()
+}
+
+configurations {
+    antTask
+}
+
 dependencies {
+    compile name: 'forms_rt', version: '12.1.0'
+
+    antTask name: 'javac2', version: '12.1.0'
+    antTask name: 'forms_rt', version: '12.1.0'
+    antTask name: 'asm-all', version: '7.0.1-idea'
+    antTask group: 'org.jdom', name: 'jdom', version: '1.1'
+}
+
+compileJava {
+    doLast() {
+        project.ant.taskdef name: 'javac2', classname: 'com.intellij.ant.Javac2', classpath: project.configurations.antTask.asPath
+
+        project.ant.javac2 srcdir: project.sourceSets.main.java.srcDirs.join(':'),
+                includes: rootProject.property("group").replace('.', '/') + '/**/*.form',
+                classpath: project.sourceSets.main.runtimeClasspath.asPath,
+                destdir: project.sourceSets.main.output.classesDirs[0],
+                source: project.sourceCompatibility,
+                target: project.targetCompatibility,
+                includeAntRuntime: false
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 jar {
