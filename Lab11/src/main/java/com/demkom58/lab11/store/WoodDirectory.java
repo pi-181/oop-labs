@@ -1,11 +1,15 @@
 package com.demkom58.lab11.store;
 
 import com.demkom58.lab11.model.Wood;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class WoodDirectory extends AbstractStore<Wood> {
+    private final Map<Integer, Wood> map = new HashMap<>();
 
     public WoodDirectory() {
         super("Каталог деревини");
@@ -19,22 +23,33 @@ public class WoodDirectory extends AbstractStore<Wood> {
         if (getById(wood.getId()) != null)
             return false;
 
-        return super.add(wood);
+        map.put(wood.getId(), wood);
+        return true;
+    }
+
+    @Override
+    public Wood get(int index) {
+        return getById(index);
+    }
+
+    @Override
+    public int getCount() {
+        return map.size();
+    }
+
+    @Override
+    public @NotNull Iterator<Wood> iterator() {
+        return map.values().iterator();
     }
 
     @Nullable
     public Wood getById(int id) {
-        for (Wood wood : this) {
-            if (wood.getId() == id)
-                return wood;
-        }
-
-        return null;
+        return map.get(id);
     }
 
     @Override
     public Wood[] getArr() {
-        return Arrays.copyOf(arr, count, Wood[].class);
+        return map.values().toArray(new Wood[0]);
     }
 
 }

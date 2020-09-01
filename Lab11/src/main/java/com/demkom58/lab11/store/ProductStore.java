@@ -3,14 +3,15 @@ package com.demkom58.lab11.store;
 import com.demkom58.lab11.event.IProductListener;
 import com.demkom58.lab11.event.ProductEvent;
 import com.demkom58.lab11.model.IWeight;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductStore extends AbstractStore<IWeight> {
     private final Object monitor = new Object();
     private final List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
+    private final List<IWeight> weights = new ArrayList<>();
 
     public ProductStore() {
         super("Каталог виробів");
@@ -18,14 +19,32 @@ public class ProductStore extends AbstractStore<IWeight> {
 
     @Override
     public boolean add(IWeight abstractForm) {
-        final boolean result;
-
         synchronized (monitor) {
-            result = super.add(abstractForm);
+            weights.add(abstractForm);
             fireProductListener(new ProductEvent(this , abstractForm));
         }
 
-        return result;
+        return true;
+    }
+
+    @Override
+    public IWeight get(int index) {
+        return weights.get(index);
+    }
+
+    @Override
+    public int getCount() {
+        return weights.size();
+    }
+
+    @Override
+    public @NotNull Iterator<IWeight> iterator() {
+        return weights.iterator();
+    }
+
+    @NotNull
+    public ListIterator<IWeight> listIterator() {
+        return weights.listIterator();
     }
 
     public void addProductListener(IProductListener listener) {
@@ -42,7 +61,7 @@ public class ProductStore extends AbstractStore<IWeight> {
 
     @Override
     public IWeight[] getArr() {
-        return Arrays.copyOf(arr, count, IWeight[].class);
+        return weights.toArray(new IWeight[0]);
     }
 
 }
