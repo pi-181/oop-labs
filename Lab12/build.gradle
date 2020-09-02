@@ -1,15 +1,6 @@
-application {
-    mainClassName = "com.demkom58.lab12.Main"
-}
-
-dependencies {
-}
+application.mainClassName = "com.demkom58.lab12.Main"
 
 jar {
-    manifest {
-        attributes('Main-Class': application.mainClassName)
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+    manifest { attributes('Main-Class': application.mainClassName) }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
