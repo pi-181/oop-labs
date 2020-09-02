@@ -4,12 +4,13 @@ import com.demkom58.lab13.model.IWeight;
 import com.demkom58.lab13.model.Timber;
 import com.demkom58.lab13.model.Wood;
 import com.demkom58.lab13.store.ProductStore;
+import com.demkom58.lab13.store.WasteStore;
 import com.demkom58.lab13.store.WoodDirectory;
 
 public class TimberShop extends WoodShop {
 
-    public TimberShop(String name, WoodDirectory woodDirectory, ProductStore productStore, int n) {
-        super(name, woodDirectory,productStore, n);
+    public TimberShop(String name, WoodDirectory woodDirectory, ProductStore productStore, WasteStore wasteStore, WoodLock woodLock, int n) {
+        super(name, woodDirectory, productStore, wasteStore, woodLock, n);
     }
 
     @Override
