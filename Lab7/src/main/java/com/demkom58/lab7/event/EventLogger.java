@@ -11,6 +11,7 @@ public class EventLogger implements IProductListener {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
     private BufferedWriter bufferedWriter;
+    private boolean enabled = false;
 
     public EventLogger() {
         try {
@@ -22,6 +23,9 @@ public class EventLogger implements IProductListener {
 
     @Override
     public void onProductEvent(ProductEvent event) {
+        if (!enabled)
+            return;
+
         final String time = sdf.format(new Date(event.getTime()));
         writeString(time + " " + event.getSource().toString());
     }
@@ -38,4 +42,13 @@ public class EventLogger implements IProductListener {
     public String getLogFileName() {
         return logFileName;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
 }
