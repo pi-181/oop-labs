@@ -21,6 +21,8 @@ public class MainGui extends JFrame {
     private JMenuItem saveMenuItem;
     private JMenuItem openMenuItem;
     private JMenuItem showLogMenuItem;
+    private JMenuItem enableLoggerMenuItem;
+    private JMenuItem disableLoggerMenuItem;
 
     private WoodDirectory woodDirectory = new WoodDirectory();
     private ProductStore productStore = new ProductStore();
@@ -57,6 +59,8 @@ public class MainGui extends JFrame {
         openMenuItem.addActionListener(this::open);
         saveMenuItem.addActionListener(this::save);
         showLogMenuItem.addActionListener(this::showLog);
+        enableLoggerMenuItem.addActionListener(this::enableLogger);
+        disableLoggerMenuItem.addActionListener(this::disableLogger);
 
         textArea.setText(productStore.toString());
 
@@ -137,6 +141,31 @@ public class MainGui extends JFrame {
         }
     }
 
+    public void enableLogger(ActionEvent e) {
+        setLoggerEnabled(true);
+        JOptionPane.showMessageDialog(
+                this,
+                "Event logger is enabled now.",
+                "Settings change",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    public void disableLogger(ActionEvent e) {
+        setLoggerEnabled(false);
+        JOptionPane.showMessageDialog(
+                this,
+                "Event logger is disabled now.",
+                "Settings change",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    private void setLoggerEnabled(boolean enabled) {
+        eventLogger.setEnabled(enabled);
+        disableLoggerMenuItem.setEnabled(enabled);
+        enableLoggerMenuItem.setEnabled(!enabled);
+    }
     public void onDialogSelect(MouseEvent e) {
         IWoodDialog dlg = dialogList.getSelectedValue();
         dlg.setWoodDirectory(woodDirectory);

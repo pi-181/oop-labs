@@ -98,6 +98,20 @@
                   <text value="Show Log"/>
                 </properties>
               </component>
+              <component id="4a012" class="javax.swing.JMenuItem" binding="enableLoggerMenuItem">
+                <constraints/>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Enable Logger"/>
+                </properties>
+              </component>
+              <component id="f3ad2" class="javax.swing.JMenuItem" binding="disableLoggerMenuItem">
+                <constraints/>
+                <properties>
+                  <enabled value="true"/>
+                  <text value="Disable Logger"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>

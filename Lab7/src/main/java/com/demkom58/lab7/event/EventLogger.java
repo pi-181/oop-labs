@@ -11,7 +11,7 @@ public class EventLogger implements IProductListener {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
     private BufferedWriter bufferedWriter;
-    private boolean enabled = false;
+    private boolean enabled = true;
 
     public EventLogger() {
         try {
