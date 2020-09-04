@@ -11,6 +11,8 @@ import java.util.function.Supplier;
 public class MultithreadingTest {
     private static final int COLLECTIONS = 10;
     private static final Random RANDOM = new Random();
+    private static final Object LOCK = new Object();
+    private static int done = 0;
 
     @Test
     public void task9() throws Exception {
@@ -32,7 +34,6 @@ public class MultithreadingTest {
         for (int i = 1; i < map.size(); i++)
             startIndexMap.put(i, sizeMap.get(i - 1) + startIndexMap.get(i - 1));
 
-        final CountDownLatch fillLatch = new CountDownLatch(map.size());
         for (int i = 0; i < map.size(); i++) {
             final int collectionKey = i;
             final int startIndex = startIndexMap.get(i);
@@ -42,11 +43,17 @@ public class MultithreadingTest {
                 for (int j = 0; j < collection.size(); j++) {
                     ints[startIndex + j] = iterator.next();
                 }
-                fillLatch.countDown();
+                synchronized (LOCK) {
+                    done++;
+                    LOCK.notify();
+                }
             });
         }
 
-        fillLatch.await();
+        synchronized (LOCK) {
+            while (done < map.size())
+                LOCK.wait();
+        }
 
         System.out.println("Done!");
         System.out.println(Arrays.toString(ints));
