@@ -111,7 +111,7 @@ public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
 
         @Override
         public T previous() {
-            return (T) arr[current--];
+            return (T) arr[--current];
         }
 
         @Override
