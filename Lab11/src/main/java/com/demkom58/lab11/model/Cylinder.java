@@ -20,8 +20,8 @@ public class Cylinder extends AbstractForm {
     }
 
     public void setHeight(float height) throws Exception {
-        if (5 > height || height > 20)
-            throw new Exception("Height of Cylinder should be in range from 5 to 20 m");
+        if (2 > height || height > 30)
+            throw new Exception("Height of Cylinder should be in range from 2 to 30 m");
 
         this.height = height;
     }
@@ -31,8 +31,8 @@ public class Cylinder extends AbstractForm {
     }
 
     public void setDiameter(float diameter) throws Exception {
-        if (5 > diameter || diameter > 10)
-            throw new Exception("Diameter of Cylinder should be in range from 5 to 10 m");
+        if (1 > diameter || diameter > 40)
+            throw new Exception("Diameter of Cylinder should be in range from 1 to 40 m");
 
         this.diameter = diameter;
     }

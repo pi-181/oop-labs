@@ -25,8 +25,8 @@ public class Timber extends AbstractForm {
     }
 
     public void setLength(float length) throws Exception {
-        if (5 > length || length > 100)
-            throw new Exception("Length of Timber should be in range from 5 to 100 m");
+        if (1 > length || length > 100)
+            throw new Exception("Length of Timber should be in range from 1 to 100 m");
 
         this.length = length;
     }
@@ -36,8 +36,8 @@ public class Timber extends AbstractForm {
     }
 
     public void setHeight(float height) throws Exception {
-        if (1 > height || height > 10)
-            throw new Exception("Height of Timber should be in range from 1 to 10 m");
+        if (1 > height || height > 40)
+            throw new Exception("Height of Timber should be in range from 1 to 40 m");
 
         this.height = height;
     }
@@ -47,8 +47,8 @@ public class Timber extends AbstractForm {
     }
 
     public void setWidth(float width) throws Exception {
-        if (5 > width || width > 10)
-            throw new Exception("Width of Timber should be in range from 5 to 10 m");
+        if (1 > width || width > 60)
+            throw new Exception("Width of Timber should be in range from 1 to 60 m");
 
         this.width = width;
     }

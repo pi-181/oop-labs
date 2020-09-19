@@ -12,9 +12,9 @@ public class Waste implements IWeight {
     }
 
     public void setWeight(float weight) throws Exception {
-        if (weight < 20 || weight > 100)
+        if (weight < 1 || weight > 1000)
             throw new Exception(weight + " is not correct weight.\n" +
-                    "It should be in range from 20 to 100 kg.");
+                    "It should be in range from 1 to 1000 kg.");
 
         this.weight = weight;
     }
