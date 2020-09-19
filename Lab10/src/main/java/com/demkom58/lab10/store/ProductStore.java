@@ -42,7 +42,7 @@ public class ProductStore extends AbstractStore<IWeight> {
 
     @Override
     public IWeight[] getArr() {
-        return Arrays.copyOf(arr, count, IWeight[].class);
+        return list.toArray(new IWeight[0]);
     }
 
 }

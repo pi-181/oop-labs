@@ -1,7 +1,6 @@
 package com.demkom58.lab10.store;
 
 import com.demkom58.lab10.model.Wood;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -34,7 +33,7 @@ public class WoodDirectory extends AbstractStore<Wood> {
 
     @Override
     public Wood[] getArr() {
-        return Arrays.copyOf(arr, count, Wood[].class);
+        return list.toArray(new Wood[0]);
     }
 
 }
