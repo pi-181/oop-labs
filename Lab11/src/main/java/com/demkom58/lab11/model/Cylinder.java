@@ -53,6 +53,7 @@ public class Cylinder extends AbstractForm {
                 "wood=" + getWood() +
                 ", diameter=" + diameter +
                 ", height=" + height +
+                ", weight=" + weight() +
                 '}';
     }
 
