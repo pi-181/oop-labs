@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class MainGui extends JFrame {
     private JPanel rootPanel;
@@ -62,7 +63,7 @@ public class MainGui extends JFrame {
         enableLoggerMenuItem.addActionListener(this::enableLogger);
         disableLoggerMenuItem.addActionListener(this::disableLogger);
 
-        textArea.setText(productStore.toString());
+        updateTextArea();
 
         productStore.addProductListener((event) -> System.out.println(event.getProduct()));
         productStore.addProductListener(eventLogger);
@@ -97,7 +98,7 @@ public class MainGui extends JFrame {
             ex.printStackTrace();
         }
 
-        textArea.setText(productStore.toString());
+        updateTextArea();
     }
 
     public void save(ActionEvent e) {
@@ -176,6 +177,13 @@ public class MainGui extends JFrame {
         if (o != null)
             productStore.add((IWeight) o);
 
+        updateTextArea();
+    }
+
+    /**
+     * Updates information about storages in {@link MainGui#textArea}
+     */
+    public void updateTextArea() {
         textArea.setText(productStore.toString());
     }
 
