@@ -1,8 +1,12 @@
 package com.demkom58.lab9.view;
 
 import com.demkom58.lab9.event.EventLogger;
+import com.demkom58.lab9.model.Cylinder;
 import com.demkom58.lab9.model.IWeight;
+import com.demkom58.lab9.model.Timber;
+import com.demkom58.lab9.store.CylinderStore;
 import com.demkom58.lab9.store.ProductStore;
+import com.demkom58.lab9.store.TimberStore;
 import com.demkom58.lab9.store.WoodDirectory;
 
 import javax.swing.*;
@@ -13,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.Arrays;
+import java.util.OptionalDouble;
+import java.util.StringJoiner;
 
 public class MainGui extends JFrame {
     private JPanel rootPanel;
@@ -23,9 +29,15 @@ public class MainGui extends JFrame {
     private JMenuItem showLogMenuItem;
     private JMenuItem enableLoggerMenuItem;
     private JMenuItem disableLoggerMenuItem;
+    private JMenuItem showCriticalWeightMenuItem;
+    private JMenuItem removeCriticalWeightMenuItem;
+    private JMenuItem moveCylinderTimberMenuItem;
+    private JMenuItem resetTextAreaMenuItem;
 
     private WoodDirectory woodDirectory = new WoodDirectory();
     private ProductStore productStore = new ProductStore();
+    private TimberStore timberStore = new TimberStore();
+    private CylinderStore cylinderStore = new CylinderStore();
 
     private DlgWaste dlgWaste = new DlgWaste();
     private DlgCylinder dlgCylinder = new DlgCylinder();
@@ -56,13 +68,23 @@ public class MainGui extends JFrame {
                 onDialogSelect(e);
             }
         });
+
+        // File menu items listeners
         openMenuItem.addActionListener(this::open);
         saveMenuItem.addActionListener(this::save);
+
+        // Logger menu items listeners
         showLogMenuItem.addActionListener(this::showLog);
         enableLoggerMenuItem.addActionListener(this::enableLogger);
         disableLoggerMenuItem.addActionListener(this::disableLogger);
 
-        textArea.setText(productStore.toString());
+        // Lambda menu items listener
+        showCriticalWeightMenuItem.addActionListener(this::showCriticalWeight);
+        removeCriticalWeightMenuItem.addActionListener(this::removeCriticalWeight);
+        moveCylinderTimberMenuItem.addActionListener(this::moveCylinderAndTimber);
+        resetTextAreaMenuItem.addActionListener(this::resetTextArea);
+
+        updateTextArea();
 
         productStore.addProductListener((event) -> System.out.println(event.getProduct()));
         productStore.addProductListener(eventLogger);
@@ -90,14 +112,14 @@ public class MainGui extends JFrame {
             return;
 
         final File selectedFile = fileChooser.getSelectedFile();
-        try(ObjectInputStream stream = new ObjectInputStream(new FileInputStream(selectedFile))) {
+        try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(selectedFile))) {
             woodDirectory = (WoodDirectory) stream.readObject();
             productStore = (ProductStore) stream.readObject();
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
 
-        textArea.setText(productStore.toString());
+        updateTextArea();
     }
 
     public void save(ActionEvent e) {
@@ -125,7 +147,7 @@ public class MainGui extends JFrame {
         if (!selectedFile.getName().endsWith(".wood"))
             selectedFile = new File(selectedFile.getAbsolutePath(), selectedFile.getName() + ".wood");
 
-        try(ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(selectedFile))) {
+        try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(selectedFile))) {
             stream.writeObject(woodDirectory);
             stream.writeObject(productStore);
         } catch (IOException ex) {
@@ -161,6 +183,75 @@ public class MainGui extends JFrame {
         );
     }
 
+    /**
+     * Reads information double number from user.
+     *
+     * @param message      message that user will see in dialog window
+     * @param initialValue default value that will be entered to input
+     * @return optional double, empty if user entered not valid data
+     */
+    public OptionalDouble readDoubleFromUser(String message, double initialValue) {
+        String criticalWeightInput = "";
+
+        try {
+            criticalWeightInput = JOptionPane.showInputDialog(
+                    this, message, initialValue
+            );
+            return OptionalDouble.of(Double.parseDouble(criticalWeightInput));
+        } catch (NumberFormatException ex) {
+            // handle not a float number input
+            JOptionPane.showMessageDialog(
+                    this, "'" + criticalWeightInput + "' is not correct weight",
+                    "Timber dialog error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return OptionalDouble.empty();
+        }
+    }
+
+    public void showCriticalWeight(ActionEvent e) {
+        readDoubleFromUser("Enter critical weight", 10.0).ifPresent(criticalWeight -> {
+            StringJoiner joiner = new StringJoiner("\n");
+            joiner.add("Знайдені продукти з критичною вагою (починаючи з " + criticalWeight + "):");
+            productStore.doOnlyFor(
+                    o -> o.weight() >= criticalWeight, // critical weight condition
+                    o -> joiner.add(o.toString()) // if true add to output
+            );
+            textArea.setText(joiner.toString());
+        });
+    }
+
+    public void removeCriticalWeight(ActionEvent e) {
+        readDoubleFromUser("Enter critical weight", 10.0).ifPresent(criticalWeight -> {
+            productStore.remove(o -> o.weight() >= criticalWeight);
+            updateTextArea();
+        });
+    }
+
+    public void moveCylinderAndTimber(ActionEvent e) {
+        productStore.remove(o -> {
+            // cylinder check
+            if (o.getClass() == Cylinder.class) {
+                cylinderStore.add((Cylinder) o); // add to cylinder storage
+                return true; // remove object from product storage
+            }
+
+            // timber check
+            if (o.getClass() == Timber.class) {
+                timberStore.add((Timber) o); // add to timber storage
+                return true; // remove object from product storage
+            }
+
+            // don't remove object, because we won't move it.
+            return false;
+        });
+        updateTextArea();
+    }
+
+    public void resetTextArea(ActionEvent e) {
+        updateTextArea();
+    }
+
     private void setLoggerEnabled(boolean enabled) {
         eventLogger.setEnabled(enabled);
         disableLoggerMenuItem.setEnabled(enabled);
@@ -176,7 +267,18 @@ public class MainGui extends JFrame {
         if (o != null)
             productStore.add((IWeight) o);
 
-        textArea.setText(productStore.toString());
+        updateTextArea();
+    }
+
+    /**
+     * Updates information about storages in {@link MainGui#textArea}
+     */
+    public void updateTextArea() {
+        StringJoiner joiner = new StringJoiner("\n");
+        joiner.add(productStore.toString());
+        joiner.add(timberStore.toString());
+        joiner.add(cylinderStore.toString());
+        textArea.setText(joiner.toString());
     }
 
 }
