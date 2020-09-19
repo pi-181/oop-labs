@@ -1,12 +1,17 @@
+package com.demkom58.lab9.test;
+
 import com.demkom58.lab9.model.Timber;
 import com.demkom58.lab9.store.ProductStore;
 import com.demkom58.lab9.store.WoodDirectory;
-import org.junit.Test;
 
 public class TestApp {
 
-    @Test
-    public void iteratorTest() throws Exception {
+    public static void main(String[] args) throws Exception {
+        iteratorTest();
+        doOnlyForTest();
+    }
+
+    public static void iteratorTest() throws Exception {
         ProductStore store = new ProductStore();
         WoodDirectory directory = new WoodDirectory();
 
@@ -22,8 +27,7 @@ public class TestApp {
         store.doForAll(System.out::println);
     }
 
-    @Test
-    public void doOnlyForTest() throws Exception {
+    public static void doOnlyForTest() throws Exception {
         ProductStore store = new ProductStore();
         WoodDirectory directory = new WoodDirectory();
 
@@ -36,4 +40,3 @@ public class TestApp {
     }
 
 }
-
