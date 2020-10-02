@@ -1,5 +1,7 @@
 package com.demkom58.lab13.model;
 
+import java.util.Objects;
+
 public class Waste implements IWeight {
     private float weight;
 
@@ -18,6 +20,18 @@ public class Waste implements IWeight {
     @Override
     public float weight() {
         return weight;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Waste waste = (Waste) o;
+        return Float.compare(waste.weight, weight) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(weight);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.demkom58.lab13.model;
 
+import java.util.Objects;
+
 public class Cylinder extends AbstractForm {
     private float height;
     private float diameter;
@@ -35,6 +37,21 @@ public class Cylinder extends AbstractForm {
     @Override
     public float weight() {
         return volume() * wood.getDensity();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cylinder cylinder = (Cylinder) o;
+        return Float.compare(cylinder.height, height) == 0 &&
+                Float.compare(cylinder.diameter, diameter) == 0 &&
+                wood.equals(cylinder.wood);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(height, diameter);
     }
 
     @Override
