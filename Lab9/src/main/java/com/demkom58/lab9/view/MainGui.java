@@ -34,8 +34,8 @@ public class MainGui extends JFrame {
 
     private WoodDirectory woodDirectory = new WoodDirectory();
     private ProductStore<IWeight> productStore = new ProductStore<>();
-    private ProductStore<Timber> timberStore = new ProductStore<>();
-    private ProductStore<Cylinder> cylinderStore = new ProductStore<>();
+    private ProductStore<Timber> timberStore = new ProductStore<>("Каталог довгих брусів");
+    private ProductStore<Cylinder> cylinderStore = new ProductStore<>("Каталог кругляків");
 
     private DlgWaste dlgWaste = new DlgWaste();
     private DlgCylinder dlgCylinder = new DlgCylinder();
@@ -113,6 +113,8 @@ public class MainGui extends JFrame {
         try (ObjectInputStream stream = new ObjectInputStream(new FileInputStream(selectedFile))) {
             woodDirectory = (WoodDirectory) stream.readObject();
             productStore = (ProductStore) stream.readObject();
+            timberStore = (ProductStore) stream.readObject();
+            cylinderStore = (ProductStore) stream.readObject();
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -148,6 +150,8 @@ public class MainGui extends JFrame {
         try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(selectedFile))) {
             stream.writeObject(woodDirectory);
             stream.writeObject(productStore);
+            stream.writeObject(timberStore);
+            stream.writeObject(cylinderStore);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
