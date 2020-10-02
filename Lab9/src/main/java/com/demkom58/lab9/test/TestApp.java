@@ -1,5 +1,6 @@
 package com.demkom58.lab9.test;
 
+import com.demkom58.lab9.model.IWeight;
 import com.demkom58.lab9.model.Timber;
 import com.demkom58.lab9.store.ProductStore;
 import com.demkom58.lab9.store.WoodDirectory;
@@ -12,7 +13,7 @@ public class TestApp {
     }
 
     public static void iteratorTest() throws Exception {
-        ProductStore store = new ProductStore();
+        ProductStore<IWeight> store = new ProductStore<>();
         WoodDirectory directory = new WoodDirectory();
 
         store.add(new Timber(directory.get(1), 5f, 1f, 5f));
@@ -28,7 +29,7 @@ public class TestApp {
     }
 
     public static void doOnlyForTest() throws Exception {
-        ProductStore store = new ProductStore();
+        ProductStore<IWeight> store = new ProductStore<>();
         WoodDirectory directory = new WoodDirectory();
 
         store.add(new Timber(directory.get(1), 5f, 1f, 5f));
