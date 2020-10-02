@@ -9,25 +9,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ProductStore extends AbstractStore<IWeight> {
-    private final List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
-    private final List<IWeight> weights = new ArrayList<>();
+public class ProductStore<T extends IWeight> extends AbstractStore<T> {
+    private final List<IProductListener> productListeners = new ArrayList<>();
+    private final List<T> weights = new ArrayList<>();
 
     public ProductStore() {
-        super("Каталог виробів");
+        this("Каталог виробів");
+    }
+
+    public ProductStore(String name) {
+        super(name);
     }
 
     @Override
-    public boolean add(IWeight abstractForm) {
-        weights.add(abstractForm);
-        fireProductListener(new ProductEvent(this, abstractForm));
+    public boolean add(T t) {
+        weights.add(t);
+        fireProductListener(new ProductEvent(this, t));
         return true;
     }
 
     @Override
-    public IWeight get(int index) {
+    public T get(int index) {
         return weights.get(index);
     }
 
@@ -38,12 +41,12 @@ public class ProductStore extends AbstractStore<IWeight> {
 
     @Override
     @NotNull
-    public Iterator<IWeight> iterator() {
+    public Iterator<T> iterator() {
         return weights.iterator();
     }
 
     @NotNull
-    public ListIterator<IWeight> listIterator() {
+    public ListIterator<T> listIterator() {
         return weights.listIterator();
     }
 

@@ -4,9 +4,7 @@ import com.demkom58.lab9.event.EventLogger;
 import com.demkom58.lab9.model.Cylinder;
 import com.demkom58.lab9.model.IWeight;
 import com.demkom58.lab9.model.Timber;
-import com.demkom58.lab9.store.CylinderStore;
 import com.demkom58.lab9.store.ProductStore;
-import com.demkom58.lab9.store.TimberStore;
 import com.demkom58.lab9.store.WoodDirectory;
 
 import javax.swing.*;
@@ -35,9 +33,9 @@ public class MainGui extends JFrame {
     private JMenuItem resetTextAreaMenuItem;
 
     private WoodDirectory woodDirectory = new WoodDirectory();
-    private ProductStore productStore = new ProductStore();
-    private TimberStore timberStore = new TimberStore();
-    private CylinderStore cylinderStore = new CylinderStore();
+    private ProductStore<IWeight> productStore = new ProductStore<>();
+    private ProductStore<Timber> timberStore = new ProductStore<>();
+    private ProductStore<Cylinder> cylinderStore = new ProductStore<>();
 
     private DlgWaste dlgWaste = new DlgWaste();
     private DlgCylinder dlgCylinder = new DlgCylinder();
