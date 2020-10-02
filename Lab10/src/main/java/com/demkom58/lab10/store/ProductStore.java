@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductStore extends AbstractStore<IWeight> {
-    private final Object monitor = new Object();
     private final List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
 
     public ProductStore() {
@@ -18,13 +17,8 @@ public class ProductStore extends AbstractStore<IWeight> {
 
     @Override
     public boolean add(IWeight abstractForm) {
-        final boolean result;
-
-        synchronized (monitor) {
-            result = super.add(abstractForm);
-            fireProductListener(new ProductEvent(this , abstractForm));
-        }
-
+        final boolean result = super.add(abstractForm);
+        fireProductListener(new ProductEvent(this , abstractForm));
         return result;
     }
 

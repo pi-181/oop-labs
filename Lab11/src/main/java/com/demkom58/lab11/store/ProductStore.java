@@ -5,11 +5,13 @@ import com.demkom58.lab11.event.ProductEvent;
 import com.demkom58.lab11.model.IWeight;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductStore extends AbstractStore<IWeight> {
-    private final Object monitor = new Object();
     private final List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
     private final List<IWeight> weights = new ArrayList<>();
 
@@ -19,11 +21,8 @@ public class ProductStore extends AbstractStore<IWeight> {
 
     @Override
     public boolean add(IWeight abstractForm) {
-        synchronized (monitor) {
-            weights.add(abstractForm);
-            fireProductListener(new ProductEvent(this , abstractForm));
-        }
-
+        weights.add(abstractForm);
+        fireProductListener(new ProductEvent(this, abstractForm));
         return true;
     }
 
@@ -38,7 +37,8 @@ public class ProductStore extends AbstractStore<IWeight> {
     }
 
     @Override
-    public @NotNull Iterator<IWeight> iterator() {
+    @NotNull
+    public Iterator<IWeight> iterator() {
         return weights.iterator();
     }
 

@@ -10,16 +10,12 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductStore implements Serializable {
-    private final Object monitor = new Object();
-
     private List<IWeight> arr = new ArrayList<>();
     private List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
 
     public void add(IWeight abstractForm) {
-        synchronized (monitor) {
-            arr.add(abstractForm);
-            fireProductListener(new ProductEvent(this , abstractForm));
-        }
+        arr.add(abstractForm);
+        fireProductListener(new ProductEvent(this , abstractForm));
     }
 
     public IWeight[] getArr() {
