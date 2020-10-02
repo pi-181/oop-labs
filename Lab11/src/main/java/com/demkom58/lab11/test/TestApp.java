@@ -9,7 +9,7 @@ import com.demkom58.lab11.store.WoodDirectory;
 
 public class TestApp {
     private WoodDirectory woodDirectory = new WoodDirectory();
-    private ProductStore productStore = new ProductStore();
+    private ProductStore<IWeight> productStore = new ProductStore<>();
 
     public void startApp() throws Exception {
         productStore.add(new Timber(woodDirectory.get(1), 5f, 2f, 7f));

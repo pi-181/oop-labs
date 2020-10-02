@@ -26,7 +26,7 @@ public class MainGui extends JFrame {
     private JMenuItem disableLoggerMenuItem;
 
     private WoodDirectory woodDirectory = new WoodDirectory();
-    private ProductStore productStore = new ProductStore();
+    private ProductStore<IWeight> productStore = new ProductStore<>();
 
     private DlgWaste dlgWaste = new DlgWaste();
     private DlgCylinder dlgCylinder = new DlgCylinder();

@@ -1,5 +1,6 @@
 package com.demkom58.lab12.test;
 
+import com.demkom58.lab12.model.IWeight;
 import com.demkom58.lab12.store.ProductStore;
 import com.demkom58.lab12.store.WoodDirectory;
 import com.demkom58.lab12.thread.CylinderShop;
@@ -7,7 +8,7 @@ import com.demkom58.lab12.thread.TimberShop;
 
 public class TestApp {
     private final WoodDirectory woodDirectory = new WoodDirectory();
-    private final ProductStore productStore = new ProductStore();
+    private final ProductStore<IWeight> productStore = new ProductStore<>();
 
     public void startApp() throws Exception {
         TimberShop shop1 = new TimberShop("timberShop", woodDirectory, productStore, 3);
