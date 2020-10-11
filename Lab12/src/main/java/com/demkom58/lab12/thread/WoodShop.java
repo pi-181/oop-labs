@@ -6,15 +6,15 @@ import com.demkom58.lab12.store.WoodDirectory;
 
 import java.util.Random;
 
-public abstract class WoodShop implements Runnable {
+public abstract class WoodShop<T extends IWeight> implements Runnable {
 
     protected final Random random = new Random();
     protected final String name;
     protected final WoodDirectory woodDirectory;
-    protected final ProductStore productStore;
+    protected final ProductStore<IWeight> productStore;
     protected final int n;
 
-    public WoodShop(String name, WoodDirectory woodDirectory, ProductStore productStore, int n) {
+    public WoodShop(String name, WoodDirectory woodDirectory, ProductStore<IWeight> productStore, int n) {
         this.name = name;
         this.woodDirectory = woodDirectory;
         this.productStore = productStore;
@@ -24,7 +24,7 @@ public abstract class WoodShop implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < n; i++) {
-            IWeight timber = createProduct();
+            T timber = createProduct();
             productStore.add(timber);
         }
     }
@@ -33,6 +33,6 @@ public abstract class WoodShop implements Runnable {
         return name;
     }
 
-    protected abstract IWeight createProduct();
+    protected abstract T createProduct();
 
 }

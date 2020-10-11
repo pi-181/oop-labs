@@ -6,14 +6,14 @@ import com.demkom58.lab12.model.Wood;
 import com.demkom58.lab12.store.ProductStore;
 import com.demkom58.lab12.store.WoodDirectory;
 
-public class CylinderShop extends WoodShop {
+public class CylinderShop extends WoodShop<Cylinder> {
 
-    public CylinderShop(String name, WoodDirectory woodDirectory, ProductStore productStore, int n) {
+    public CylinderShop(String name, WoodDirectory woodDirectory, ProductStore<IWeight> productStore, int n) {
         super(name, woodDirectory, productStore, n);
     }
 
     @Override
-    protected IWeight createProduct() {
+    protected Cylinder createProduct() {
         Wood wood = woodDirectory.get(random.nextInt(3) + 1);
 
         float height = 0.1f + random.nextFloat();
