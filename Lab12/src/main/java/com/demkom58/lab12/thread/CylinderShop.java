@@ -6,10 +6,13 @@ import com.demkom58.lab12.model.Wood;
 import com.demkom58.lab12.store.ProductStore;
 import com.demkom58.lab12.store.WoodDirectory;
 
+import java.util.function.Consumer;
+
 public class CylinderShop extends WoodShop<Cylinder> {
 
-    public CylinderShop(String name, WoodDirectory woodDirectory, ProductStore<IWeight> productStore, int n) {
-        super(name, woodDirectory, productStore, n);
+    public CylinderShop(String name, WoodDirectory woodDirectory, ProductStore<IWeight> productStore,
+                        long workTime, long timePerSingle, Consumer<String> logger) {
+        super(name, woodDirectory, productStore, workTime, timePerSingle, logger);
     }
 
     @Override

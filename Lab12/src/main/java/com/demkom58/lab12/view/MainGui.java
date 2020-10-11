@@ -14,9 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.util.Arrays;
-import java.util.OptionalDouble;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.List;
 
 public class MainGui extends JFrame {
     private JPanel rootPanel;
@@ -35,6 +34,9 @@ public class MainGui extends JFrame {
     private JMenuItem moveCylinderTimberMenuItem;
     private JMenuItem resetTextAreaMenuItem;
 
+    private JMenuItem startShopsMenuItem;
+    private JMenuItem clearShopsHistoryMenuItem;
+
     private WoodDirectory woodDirectory = new WoodDirectory();
     private ProductStore<IWeight> productStore = new ProductStore<>();
     private ProductStore<Timber> timberStore = new ProductStore<>("Каталог довгих брусів");
@@ -44,6 +46,7 @@ public class MainGui extends JFrame {
     private final DlgCylinder dlgCylinder = new DlgCylinder();
     private final DlgTimber dlgTimber = new DlgTimber();
     private final DlgWood dlgWood = new DlgWood();
+    private final DlgShop dlgShop = new DlgShop(woodDirectory, productStore, this::updateTextArea);
 
     private final EventLogger eventLogger = new EventLogger();
 
@@ -84,6 +87,13 @@ public class MainGui extends JFrame {
         removeCriticalWeightMenuItem.addActionListener(this::removeCriticalWeight);
         moveCylinderTimberMenuItem.addActionListener(this::moveCylinderAndTimber);
         resetTextAreaMenuItem.addActionListener(this::resetTextArea);
+
+        // Store menu items listener
+        startShopsMenuItem.addActionListener(a ->  dlgShop.setVisible(true));
+        clearShopsHistoryMenuItem.addActionListener(a -> {
+            dlgShop.getShopHistory().clear();
+            updateTextArea();
+        });
 
         updateTextArea();
 
@@ -278,11 +288,18 @@ public class MainGui extends JFrame {
     /**
      * Updates information about storages in {@link MainGui#textArea}
      */
-    public void updateTextArea() {
+    public synchronized void updateTextArea() {
         StringJoiner joiner = new StringJoiner("\n");
         joiner.add(productStore.toString());
         joiner.add(timberStore.toString());
         joiner.add(cylinderStore.toString());
+
+        final List<String> shopHistory = dlgShop.getShopHistory();
+        if (!shopHistory.isEmpty()) {
+            joiner.add("Історія подій: ");
+            shopHistory.forEach(joiner::add);
+        }
+
         textArea.setText(joiner.toString());
     }
 

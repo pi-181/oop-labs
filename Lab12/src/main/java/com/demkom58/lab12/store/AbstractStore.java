@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
+    protected final Object lock = new Object();
     protected final String name;
 
     public AbstractStore(@NotNull String name) {
@@ -49,8 +50,10 @@ public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
             return builder.toString();
         }
 
-        for (T o : this)
-            builder.append(o).append("\n");
+        synchronized (lock) {
+            for (T o : this)
+                builder.append(o).append("\n");
+        }
 
         return builder.toString();
     }

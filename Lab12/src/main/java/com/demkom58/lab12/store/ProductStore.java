@@ -12,7 +12,6 @@ import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductStore<T extends IWeight> extends AbstractStore<T> {
-    private final Object monitor = new Object();
     private final List<IProductListener> productListeners = new CopyOnWriteArrayList<>();
     private final List<T> weights = new ArrayList<>();
 
@@ -26,7 +25,7 @@ public class ProductStore<T extends IWeight> extends AbstractStore<T> {
 
     @Override
     public boolean add(T t) {
-        synchronized (monitor) {
+        synchronized (super.lock) {
             weights.add(t);
             fireProductListener(new ProductEvent(this , t));
         }
