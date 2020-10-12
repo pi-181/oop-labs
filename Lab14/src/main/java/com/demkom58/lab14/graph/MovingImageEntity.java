@@ -100,7 +100,8 @@ public class MovingImageEntity extends ImageEntity implements Updatable, Moving<
         );
 
         this.done = false;
-        
+
+        calcAngle();
         setImage(originalImage);
     }
 
