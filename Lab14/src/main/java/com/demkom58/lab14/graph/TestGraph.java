@@ -1,7 +1,5 @@
 package com.demkom58.lab14.graph;
 
-import org.jetbrains.annotations.Nullable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -13,9 +11,6 @@ public class TestGraph extends JFrame {
     private final Random random = new Random();
     private final EntityManager entityManager = new EntityManager();
     private JPanel rootPanel;
-
-    private Container container;
-    private Graphics2D graphics;
 
     private ContainerEntity resultContainer;
     private ContainerEntity wasteContainer;
@@ -40,32 +35,30 @@ public class TestGraph extends JFrame {
     }
 
     public void init() {
-        container = getContentPane();
-        graphics = (Graphics2D) container.getGraphics();
+        final int width = rootPanel.getWidth();
+        final int height = rootPanel.getHeight();
 
-        final int width = container.getWidth();
-        final int height = container.getHeight();
-
+        final Graphics graphics = rootPanel.getGraphics();
         graphics.setColor(Color.BLACK);
         graphics.clearRect(0, 0, width, height);
 
-        resultContainer = new ContainerEntity(new Rectangle2D.Float(width - 100, height - 100, 50, 50), Color.BLACK);
+        resultContainer = new ContainerEntity(new Rectangle2D.Float(width - 100, height - 100, 50, 50), Color.BLACK, 1);
         resultContainer.setTextColor(Color.WHITE);
         entityManager.add(resultContainer);
 
-        wasteContainer = new ContainerEntity(new Rectangle2D.Float(width - 100, 100, 50, 50), Color.BLACK);
+        wasteContainer = new ContainerEntity(new Rectangle2D.Float(width - 100, 100, 50, 50), Color.BLACK, 1);
         wasteContainer.setTextColor(Color.WHITE);
         entityManager.add(wasteContainer);
 
-        wasteHandler = new StaticEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f - 100, 50, 50), Color.BLACK);
+        wasteHandler = new StaticEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f - 100, 50, 50), Color.BLACK, 1);
         wasteHandler.setText("Waste Handler");
         entityManager.add(wasteHandler);
 
-        inputHandler = new StaticEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f + 100, 50, 50), Color.BLACK);
+        inputHandler = new StaticEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f + 100, 50, 50), Color.BLACK, 1);
         inputHandler.setText("Wood Handler");
         entityManager.add(inputHandler);
 
-        spawner = new StaticEntity(new Rectangle2D.Float(100, height / 2f - 50, 50, 50), Color.BLUE);
+        spawner = new StaticEntity(new Rectangle2D.Float(100, height / 2f - 50, 50, 50), Color.BLUE, 1);
         entityManager.add(spawner);
 
         Thread handlerThread = new Thread(this::handle);
@@ -79,11 +72,9 @@ public class TestGraph extends JFrame {
 
     private void handle() {
         while (true) {
-            graphics.clearRect(0, 0, getWidth(), getHeight());
             entityManager.shrink();
-
-            entityManager.getUpdatables().forEach(u -> u.update(container));
-            entityManager.getDrawables().forEach(d -> d.draw(graphics));
+            entityManager.getUpdatables().forEach(u -> u.update(rootPanel));
+            rootPanel.repaint();
 
             try {
                 Thread.sleep(50);
@@ -91,6 +82,11 @@ public class TestGraph extends JFrame {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void draw(Graphics2D g2) {
+        g2.clearRect(0, 0, getWidth(), getHeight());
+        entityManager.getDrawables().forEach(d -> d.draw(g2));
     }
 
     private void spawn() {
@@ -109,6 +105,7 @@ public class TestGraph extends JFrame {
 
             entityManager.add(createMaterial(spawnPos, handlerPos, resPos, wastePos));
             System.out.println("Spawned!");
+            entityManager.getDrawables().forEach(a -> System.out.println(a.getClass().getSimpleName() + ":" + a.getZ()));
 
             if (wasteContainer.getCount() > 0 && random.nextBoolean()) {
                 wasteContainer.addCount(-1);
@@ -159,4 +156,12 @@ public class TestGraph extends JFrame {
                 : new Rectangle2D.Float(pos.getX(), pos.getY(), 20, 30);
     }
 
+    private void createUIComponents() {
+        rootPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                draw((Graphics2D) g);
+            }
+        };
+    }
 }

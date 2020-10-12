@@ -6,7 +6,12 @@ public class ContainerEntity extends StaticEntity {
     private int count;
 
     public ContainerEntity(Shape shape, Color color) {
-        super(shape, color);
+        super(shape, color, 0);
+        setCount(0);
+    }
+
+    public ContainerEntity(Shape shape, Color color, int z) {
+        super(shape, color, z);
         setCount(0);
     }
 

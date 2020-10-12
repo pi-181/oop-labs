@@ -2,17 +2,17 @@ package com.demkom58.lab14.graph;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
 
 public class EntityManager {
     private final Set<Entity> entities = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    private final Set<Updatable> updatables = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    private final Set<Drawable> drawables = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final Set<Updatable> updatables = new ConcurrentSkipListSet<>(
+            Comparator.comparingInt(Updatable::getPriority).thenComparingInt(Object::hashCode));
+    private final Set<Drawable> drawables = new ConcurrentSkipListSet<>(
+            Comparator.comparingInt(Drawable::getZ).thenComparingInt(Object::hashCode));
 
     public void add(Entity entity) {
         entities.add(entity);
@@ -29,7 +29,10 @@ public class EntityManager {
                 .filter(Entity::isDead)
                 .collect(Collectors.toList());
 
-        entities.removeAll(dead);
+        final boolean removed = entities.removeAll(dead);
+        if (!removed)
+            return;
+
         updatables.removeAll(dead);
         drawables.removeAll(dead);
     }

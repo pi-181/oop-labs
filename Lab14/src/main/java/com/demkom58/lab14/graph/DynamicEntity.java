@@ -1,5 +1,7 @@
 package com.demkom58.lab14.graph;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -20,16 +22,24 @@ public class DynamicEntity implements Drawable, Updatable {
     protected float distance;
     protected Consumer<DynamicEntity> onDone;
 
-    public DynamicEntity(Shape shape,
-                          Color color,
-                          Point2D target,
-                          Consumer<DynamicEntity> onDone,
-                          float speed) {
+    protected int z;
+    protected int priority;
+
+    public DynamicEntity(Shape shape, Color color, Point2D target,
+                         Consumer<DynamicEntity> onDone, float speed) {
+        this(shape, color, target, onDone, speed, 0, 0);
+    }
+
+    public DynamicEntity(Shape shape, Color color, Point2D target,
+                          Consumer<DynamicEntity> onDone, float speed, int z, int priority) {
         this.shape = shape;
         this.source = shape;
 
         this.color = color;
         this.speed = speed;
+
+        this.z = z;
+        this.priority = priority;
 
         setTarget(target);
         setOnDone(onDone);
@@ -51,6 +61,11 @@ public class DynamicEntity implements Drawable, Updatable {
 
         done = true;
         onDone.accept(this);
+    }
+
+    @Override
+    public int getPriority() {
+        return priority;
     }
 
     public void setProgress(float progress) {
@@ -112,6 +127,11 @@ public class DynamicEntity implements Drawable, Updatable {
         graphics.setColor(color);
         graphics.fill(shape);
         graphics.draw(shape);
+    }
+
+    @Override
+    public int getZ() {
+        return z;
     }
 
     @Override

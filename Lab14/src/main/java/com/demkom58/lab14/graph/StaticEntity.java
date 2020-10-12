@@ -2,6 +2,7 @@ package com.demkom58.lab14.graph;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 public class StaticEntity implements Drawable {
     protected final Shape shape;
@@ -10,16 +11,28 @@ public class StaticEntity implements Drawable {
     protected Color textColor = Color.BLACK;
     protected boolean dead = false;
 
+    protected int z;
+
     public StaticEntity(Shape shape, Color color) {
+        this(shape, color, 0);
+    }
+
+    public StaticEntity(Shape shape, Color color, int z) {
         this.shape = shape;
         this.color = color;
+        this.z = z;
     }
 
     public StaticEntity(Shape shape, Color color, String text, Color textColor) {
+        this(shape, color, text, textColor, 0);
+    }
+
+    public StaticEntity(Shape shape, Color color, String text, Color textColor, int z) {
         this.shape = shape;
         this.color = color;
         this.text = text;
         this.textColor = textColor;
+        this.z = z;
     }
 
     public void draw(Graphics2D graphics) {
@@ -32,6 +45,11 @@ public class StaticEntity implements Drawable {
             graphics.setColor(textColor);
             graphics.drawString(text, bounds.x, bounds.y);
         }
+    }
+
+    @Override
+    public int getZ() {
+        return z;
     }
 
     public Point2D getCenterPosition() {
