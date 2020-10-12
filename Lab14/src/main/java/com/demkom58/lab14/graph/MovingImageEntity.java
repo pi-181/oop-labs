@@ -78,8 +78,8 @@ public class MovingImageEntity extends ImageEntity implements Updatable, Moving<
 
     @Override
     public void setProgress(float progress) {
-        final double currentX = MovingShapeEntity.lerp(startLocation.width, target.getX(), progress);
-        final double currentY = MovingShapeEntity.lerp(startLocation.height, target.getY(), progress);
+        final double currentX = lerp(startLocation.width, target.getX(), progress);
+        final double currentY = lerp(startLocation.height, target.getY(), progress);
 
         location = new Dimension((int) currentX, (int) currentY);
     }
@@ -157,6 +157,10 @@ public class MovingImageEntity extends ImageEntity implements Updatable, Moving<
         rotateOp.filter(image, rotatedImage);
 
         return rotatedImage;
+    }
+
+    public static double lerp(double a, double b, double f) {
+        return a + f * (b - a);
     }
 
 }
