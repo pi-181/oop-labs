@@ -1,5 +1,6 @@
 package com.demkom58.lab14.graph;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class Point2D {
@@ -30,6 +31,10 @@ public class Point2D {
         Point2D point2D = (Point2D) o;
         return Float.compare(point2D.x, x) == 0 &&
                 Float.compare(point2D.y, y) == 0;
+    }
+
+    public Dimension dimension() {
+        return new Dimension((int) x, (int) y);
     }
 
     @Override

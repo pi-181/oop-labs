@@ -2,9 +2,6 @@ package com.demkom58.lab14.graph;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 import java.util.Random;
 
 public class TestGraph extends JFrame {
@@ -12,11 +9,11 @@ public class TestGraph extends JFrame {
     private final EntityManager entityManager = new EntityManager();
     private JPanel rootPanel;
 
-    private ContainerEntity resultContainer;
-    private ContainerEntity wasteContainer;
-    private ShapeEntity wasteHandler;
-    private ShapeEntity inputHandler;
-    private ShapeEntity spawner;
+    private ImageContainerEntity finalPlanet;
+    private ImageContainerEntity bridgePlanet;
+    private ImageEntity asteroidEntity;
+    private ImageEntity stationEntity;
+    private ImageEntity earthEntity;
 
     public TestGraph() {
         try {
@@ -42,24 +39,22 @@ public class TestGraph extends JFrame {
         graphics.setColor(Color.BLACK);
         graphics.clearRect(0, 0, width, height);
 
-        resultContainer = new ContainerEntity(new Rectangle2D.Float(width - 100, height - 100, 50, 50), Color.BLACK, 1);
-        resultContainer.setTextColor(Color.WHITE);
-        entityManager.add(resultContainer);
+        finalPlanet = new ImageContainerEntity("/planet.png",
+                new Dimension(width - 100, height - 100), new Dimension(70, 50), 1, Color.BLACK);
+        entityManager.add(finalPlanet);
 
-        wasteContainer = new ContainerEntity(new Rectangle2D.Float(width - 100, 100, 50, 50), Color.BLACK, 1);
-        wasteContainer.setTextColor(Color.WHITE);
-        entityManager.add(wasteContainer);
+        bridgePlanet = new ImageContainerEntity("/planet.png", new Dimension(width - 100, 100), new Dimension(70, 50), 1, Color.BLACK);
+        entityManager.add(bridgePlanet);
 
-        wasteHandler = new ShapeEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f - 100, 50, 50), Color.BLACK, 1);
-        wasteHandler.setText("Waste Handler");
-        entityManager.add(wasteHandler);
+        asteroidEntity = new ImageEntity("/asteroid.png", new Dimension(width / 2 - 50, height / 2 - 100), new Dimension(50, 50), 1);
+        entityManager.add(asteroidEntity);
 
-        inputHandler = new ShapeEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f + 100, 50, 50), Color.BLACK, 1);
-        inputHandler.setText("Wood Handler");
-        entityManager.add(inputHandler);
+        stationEntity = new ImageEntity("/station.png", new Dimension(width / 2 - 50, height / 2 + 100), new Dimension(50, 50), 1);
+        entityManager.add(stationEntity);
 
-        spawner = new ShapeEntity(new Rectangle2D.Float(100, height / 2f - 50, 50, 50), Color.BLUE, 1);
-        entityManager.add(spawner);
+        earthEntity = new ImageEntity("/earth.png",
+                new Dimension(100, (int) (height / 2f - 50)), new Dimension(50, 50), 1);
+        entityManager.add(earthEntity);
 
         Thread handlerThread = new Thread(this::handle);
         handlerThread.setDaemon(true);
@@ -91,11 +86,11 @@ public class TestGraph extends JFrame {
     }
 
     private void spawn() {
-        final Point2D spawnPos = spawner.getPosition();
-        final Point2D handlerPos = inputHandler.getPosition();
-        final Point2D wasteHandlerPos = wasteHandler.getPosition();
-        final Point2D resPos = resultContainer.getPosition();
-        final Point2D wastePos = wasteContainer.getPosition();
+        final Point2D earthPos = earthEntity.getPosition();
+        final Point2D stationPos = stationEntity.getPosition();
+        final Point2D asteroidPos = asteroidEntity.getPosition();
+        final Point2D finalPlanetPos = finalPlanet.getPosition();
+        final Point2D bridgePlanetPos = bridgePlanet.getPosition();
 
         while (true) {
             try {
@@ -104,56 +99,49 @@ public class TestGraph extends JFrame {
                 e.printStackTrace();
             }
 
-            entityManager.add(createMaterial(spawnPos, handlerPos, resPos, wastePos));
+            entityManager.add(createEarthShip(earthPos, stationPos, finalPlanetPos, bridgePlanetPos));
 
-            if (wasteContainer.getCount() > 0 && random.nextBoolean()) {
-                wasteContainer.addCount(-1);
+            if (bridgePlanet.getCount() > 0 && random.nextBoolean()) {
+                bridgePlanet.addCount(-1);
 
-                final RoundRectangle2D.Float start =
-                        new RoundRectangle2D.Float(wastePos.getX(), wastePos.getY(), 20, 20, 10, 10);
-
-                entityManager.add(new DynamicEntity(start, Color.RED, wasteHandlerPos, a -> {
-                    if (a.target.equals(resPos)) {
+                final Dimension start = new Dimension((int) bridgePlanetPos.getX(), (int) bridgePlanetPos.getY());
+                entityManager.add(new MovingImageEntity("/rocket.png", start,
+                        new Dimension(20, 20), 0, 0, asteroidPos, a -> {
+                    if (a.target.equals(finalPlanetPos)) {
                         a.kill();
-                        resultContainer.addCount(1);
+                        finalPlanet.addCount(1);
                         return;
                     }
 
-                    a.setShape(createMaterialShape(a.getPosition()));
-                    a.setTarget(resPos);
+                    a.setTarget(finalPlanetPos);
                 }, 2.0f));
             }
         }
     }
 
-    public DynamicEntity createMaterial(Point2D from, Point2D handler, Point2D storage, Point2D wasteStorage) {
-        final Shape spawned = createMaterialShape(from);
-        return new DynamicEntity(spawned, Color.RED, handler, a -> {
+    public MovingImageEntity createEarthShip(Point2D from, Point2D handler, Point2D storage, Point2D wasteStorage) {
+        return new MovingImageEntity("/rocket.png", from.dimension(),
+                new Dimension(20, 20), 0, 0, handler, a -> {
             if (a.target.equals(storage)) {
                 a.kill();
-                resultContainer.addCount(1);
+                finalPlanet.addCount(1);
                 return;
             }
 
             a.setTarget(storage);
             if (random.nextFloat() > 0.8f)
-                entityManager.add(createWaste(a.getPosition(), wasteStorage));
+                entityManager.add(createStationShip(a.getPosition(), wasteStorage));
         }, 2f);
     }
 
-    public DynamicEntity createWaste(Point2D position, Point2D target) {
-        final Shape spawned = new RoundRectangle2D.Float(position.getX(), position.getY(), 20, 20, 10, 10);
-        return new DynamicEntity(spawned, Color.RED, target, a -> {
+    public MovingImageEntity createStationShip(Point2D position, Point2D target) {
+        return new MovingImageEntity("/rocket.png", position.dimension(),
+                new Dimension(20, 20), 0, 0, target, a -> {
             a.kill();
-            wasteContainer.addCount(1);
+            bridgePlanet.addCount(1);
         }, 2f);
     }
 
-    private Shape createMaterialShape(Point2D pos) {
-        return random.nextBoolean()
-                ? new Ellipse2D.Float(pos.getX(), pos.getY(), 20, 30)
-                : new Rectangle2D.Float(pos.getX(), pos.getY(), 20, 30);
-    }
 
     private void createUIComponents() {
         rootPanel = new JPanel() {
