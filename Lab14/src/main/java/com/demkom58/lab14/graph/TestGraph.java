@@ -104,8 +104,6 @@ public class TestGraph extends JFrame {
             }
 
             entityManager.add(createMaterial(spawnPos, handlerPos, resPos, wastePos));
-            System.out.println("Spawned!");
-            entityManager.getDrawables().forEach(a -> System.out.println(a.getClass().getSimpleName() + ":" + a.getZ()));
 
             if (wasteContainer.getCount() > 0 && random.nextBoolean()) {
                 wasteContainer.addCount(-1);
