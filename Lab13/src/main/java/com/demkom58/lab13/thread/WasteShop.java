@@ -5,26 +5,17 @@ import com.demkom58.lab13.model.Waste;
 import com.demkom58.lab13.store.ProductStore;
 import com.demkom58.lab13.store.WasteStore;
 
-public class WasteShop extends WoodShop {
+import java.util.function.Consumer;
 
-    public WasteShop(String name,
-                     ProductStore productStore,
-                     WasteStore wasteStore,
-                     TimberShop timberShop,
-                     CylinderShop cylinderShop,
-                     WoodLock woodLock) {
-        super(
-                name,
-                null,
-                productStore,
-                wasteStore,
-                woodLock,
-                timberShop.getN() + cylinderShop.getN()
-        );
+public class WasteShop extends WoodShop<Waste> {
+
+    public WasteShop(String name, ProductStore<IWeight> productStore, WasteStore wasteStore,
+                     WoodLock woodLock, long workTime, Consumer<String> logger) {
+        super(name, null, productStore, workTime, 0, logger, wasteStore, woodLock);
     }
 
     @Override
-    protected IWeight createProduct() {
+    protected Waste createProduct() {
         float weight = 25 + random.nextFloat() * 75;
         Waste waste = null;
 
@@ -39,7 +30,8 @@ public class WasteShop extends WoodShop {
 
     @Override
     public void run() {
-        for (int i = 0; i < n; i++) {
+        log("Started");
+        while (System.currentTimeMillis() < workToTime) {
             woodLock.lock();
             try {
                 while (wasteStore.getSize() == 0)
@@ -56,5 +48,6 @@ public class WasteShop extends WoodShop {
             final IWeight product = createProduct();
             productStore.add(product);
         }
+        log("Finished");
     }
 }

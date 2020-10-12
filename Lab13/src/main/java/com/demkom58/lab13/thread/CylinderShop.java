@@ -7,14 +7,18 @@ import com.demkom58.lab13.store.ProductStore;
 import com.demkom58.lab13.store.WasteStore;
 import com.demkom58.lab13.store.WoodDirectory;
 
-public class CylinderShop extends WoodShop {
+import java.util.function.Consumer;
 
-    public CylinderShop(String name, WoodDirectory woodDirectory, ProductStore productStore, WasteStore wasteStore, WoodLock woodLock, int n) {
-        super(name, woodDirectory, productStore, wasteStore, woodLock, n);
+public class CylinderShop extends WoodShop<Cylinder> {
+
+    public CylinderShop(String name, WoodDirectory woodDirectory, ProductStore<IWeight> productStore,
+                        WasteStore wasteStore, WoodLock woodLock, long workTime,
+                        long timePerSingle, Consumer<String> logger) {
+        super(name, woodDirectory, productStore, workTime, timePerSingle, logger, wasteStore, woodLock);
     }
 
     @Override
-    protected IWeight createProduct() {
+    protected Cylinder createProduct() {
         Wood wood = woodDirectory.get(random.nextInt(3) + 1);
 
         float height = 0.1f + random.nextFloat();

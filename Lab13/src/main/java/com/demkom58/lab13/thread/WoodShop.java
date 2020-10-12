@@ -6,38 +6,49 @@ import com.demkom58.lab13.store.ProductStore;
 import com.demkom58.lab13.store.WasteStore;
 import com.demkom58.lab13.store.WoodDirectory;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.function.Consumer;
 
-public abstract class WoodShop implements Runnable {
+public abstract class WoodShop<T extends IWeight> implements Runnable {
 
     protected final Random random = new Random();
+    protected final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     protected final String name;
     protected final WoodDirectory woodDirectory;
-    protected final ProductStore productStore;
+    protected final ProductStore<IWeight> productStore;
+
+    protected final long workToTime;
+    protected final long timePerSingle;
+
+    protected final Consumer<String> logger;
+
     protected final WasteStore wasteStore;
     protected final WoodLock woodLock;
-    protected final int n;
 
-    public WoodShop(String name,
-                    WoodDirectory woodDirectory,
-                    ProductStore productStore,
-                    WasteStore wasteStore,
-                    WoodLock woodLock,
-                    int n) {
+    public WoodShop(String name, WoodDirectory woodDirectory, ProductStore<IWeight> productStore,
+                    long workTime, long timePerSingle, Consumer<String> logger,
+                    WasteStore wasteStore, WoodLock woodLock) {
         this.name = name;
         this.woodDirectory = woodDirectory;
         this.productStore = productStore;
+
+        this.workToTime = System.currentTimeMillis() + workTime;
+        this.timePerSingle = timePerSingle;
+
+        this.logger = logger;
+
         this.wasteStore = wasteStore;
         this.woodLock = woodLock;
-        this.n = n;
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < n; i++) {
-            IWeight timber = createProduct();
-            productStore.add(timber);
-
+        log("Started");
+        while (System.currentTimeMillis() < workToTime) {
             woodLock.lock();
             try {
                 while (wasteStore.getSize() >= wasteStore.getMaxSize())
@@ -45,22 +56,29 @@ public abstract class WoodShop implements Runnable {
 
                 wasteStore.addWithPrint(this);
                 woodLock.isEmpty().signal();
+
+                final T product = createProduct();
+                Thread.sleep(timePerSingle);
+                log("Finished creating product: " + product);
+                productStore.add(product);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 woodLock.unlock();
             }
         }
+        log("Finished");
+    }
+
+    protected void log(String message) {
+        logger.accept("[" + timeFormat.format(LocalDateTime.now()) + "] "
+                + getName() + ": " + message);
     }
 
     public String getName() {
         return name;
     }
 
-    public int getN() {
-        return n;
-    }
-
-    protected abstract IWeight createProduct();
+    protected abstract T createProduct();
 
 }
