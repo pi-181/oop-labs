@@ -14,9 +14,9 @@ public class TestGraph extends JFrame {
 
     private ContainerEntity resultContainer;
     private ContainerEntity wasteContainer;
-    private StaticEntity wasteHandler;
-    private StaticEntity inputHandler;
-    private StaticEntity spawner;
+    private ShapeEntity wasteHandler;
+    private ShapeEntity inputHandler;
+    private ShapeEntity spawner;
 
     public TestGraph() {
         try {
@@ -50,15 +50,15 @@ public class TestGraph extends JFrame {
         wasteContainer.setTextColor(Color.WHITE);
         entityManager.add(wasteContainer);
 
-        wasteHandler = new StaticEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f - 100, 50, 50), Color.BLACK, 1);
+        wasteHandler = new ShapeEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f - 100, 50, 50), Color.BLACK, 1);
         wasteHandler.setText("Waste Handler");
         entityManager.add(wasteHandler);
 
-        inputHandler = new StaticEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f + 100, 50, 50), Color.BLACK, 1);
+        inputHandler = new ShapeEntity(new Rectangle2D.Float(width / 2f - 50, height / 2f + 100, 50, 50), Color.BLACK, 1);
         inputHandler.setText("Wood Handler");
         entityManager.add(inputHandler);
 
-        spawner = new StaticEntity(new Rectangle2D.Float(100, height / 2f - 50, 50, 50), Color.BLUE, 1);
+        spawner = new ShapeEntity(new Rectangle2D.Float(100, height / 2f - 50, 50, 50), Color.BLUE, 1);
         entityManager.add(spawner);
 
         Thread handlerThread = new Thread(this::handle);
@@ -85,6 +85,7 @@ public class TestGraph extends JFrame {
     }
 
     public void draw(Graphics2D g2) {
+        g2.setBackground(new Color(28, 26, 57));
         g2.clearRect(0, 0, getWidth(), getHeight());
         entityManager.getDrawables().forEach(d -> d.draw(g2));
     }

@@ -2,7 +2,7 @@ package com.demkom58.lab14.graph;
 
 import java.awt.*;
 
-public class ContainerEntity extends StaticEntity {
+public class ContainerEntity extends ShapeEntity {
     private int count;
 
     public ContainerEntity(Shape shape, Color color) {

@@ -2,9 +2,8 @@ package com.demkom58.lab14.graph;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.Objects;
 
-public class StaticEntity implements Drawable {
+public class ShapeEntity implements Drawable {
     protected final Shape shape;
     protected final Color color;
     protected String text;
@@ -13,21 +12,21 @@ public class StaticEntity implements Drawable {
 
     protected int z;
 
-    public StaticEntity(Shape shape, Color color) {
+    public ShapeEntity(Shape shape, Color color) {
         this(shape, color, 0);
     }
 
-    public StaticEntity(Shape shape, Color color, int z) {
+    public ShapeEntity(Shape shape, Color color, int z) {
         this.shape = shape;
         this.color = color;
         this.z = z;
     }
 
-    public StaticEntity(Shape shape, Color color, String text, Color textColor) {
+    public ShapeEntity(Shape shape, Color color, String text, Color textColor) {
         this(shape, color, text, textColor, 0);
     }
 
-    public StaticEntity(Shape shape, Color color, String text, Color textColor, int z) {
+    public ShapeEntity(Shape shape, Color color, String text, Color textColor, int z) {
         this.shape = shape;
         this.color = color;
         this.text = text;
