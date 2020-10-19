@@ -3,11 +3,12 @@ package com.demkom58.lab13.store;
 import com.demkom58.lab13.model.IWeight;
 import com.demkom58.lab13.thread.WoodShop;
 
+import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
 public class WasteStore {
     private final Consumer<String> logger;
-    private final int maxSize;
+    private int maxSize;
     private int size = 0;
 
     public WasteStore(Consumer<String> logger, int maxSize) {
@@ -17,16 +18,20 @@ public class WasteStore {
 
     public void addWithPrint(WoodShop<? extends IWeight> shop) {
         size++;
-        logger.accept(shop.getName() + " add 1, became " + size);
+        log(shop.getName() + " add 1, became " + size);
     }
 
     public void removeWithPrint(WoodShop<? extends IWeight> shop) {
         size--;
-        logger.accept(shop.getName() + " remove 1, became " + size);
+        log(shop.getName() + " remove 1, became " + size);
     }
 
     public int getMaxSize() {
         return maxSize;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
     }
 
     public int getSize() {
@@ -36,5 +41,10 @@ public class WasteStore {
     @Override
     public String toString() {
         return "Залишки: " + getSize() + "/" + getMaxSize();
+    }
+
+    protected void log(String message) {
+        logger.accept("[" + WoodShop.TIME_FORMATTER.format(LocalDateTime.now()) + "] "
+                + getClass().getSimpleName() + ": " + message);
     }
 }

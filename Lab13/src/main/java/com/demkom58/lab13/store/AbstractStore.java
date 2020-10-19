@@ -42,7 +42,7 @@ public abstract class AbstractStore<T> implements Iterable<T>, Serializable {
     public abstract Object[] getArr();
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         final StringBuilder builder = new StringBuilder(name).append(": \n");
         if (getCount() == 0) {
             builder.append("Пусто...\n");

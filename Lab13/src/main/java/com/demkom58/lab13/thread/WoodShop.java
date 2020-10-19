@@ -1,21 +1,19 @@
 package com.demkom58.lab13.thread;
 
 import com.demkom58.lab13.model.IWeight;
-import com.demkom58.lab13.model.Waste;
 import com.demkom58.lab13.store.ProductStore;
 import com.demkom58.lab13.store.WasteStore;
 import com.demkom58.lab13.store.WoodDirectory;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.function.Consumer;
 
 public abstract class WoodShop<T extends IWeight> implements Runnable {
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     protected final Random random = new Random();
-    protected final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     protected final String name;
     protected final WoodDirectory woodDirectory;
@@ -49,15 +47,22 @@ public abstract class WoodShop<T extends IWeight> implements Runnable {
     public void run() {
         log("Started");
         while (System.currentTimeMillis() < workToTime) {
+            // join lock
             woodLock.lock();
             try {
-                while (wasteStore.getSize() >= wasteStore.getMaxSize())
-                    woodLock.isFull().await();
+                // pre check of condition, for correct logging
+                if (wasteStore.getSize() >= wasteStore.getMaxSize()) {
+                    log("waste storage is full, waiting...");
+                    while (wasteStore.getSize() >= wasteStore.getMaxSize())
+                        woodLock.isFull().await();
+                }
 
+                // add to waste storage
                 wasteStore.addWithPrint(this);
                 woodLock.isEmpty().signal();
 
                 final T product = createProduct();
+                // wait for creation product
                 Thread.sleep(timePerSingle);
                 log("Finished creating product: " + product);
                 productStore.add(product);
@@ -70,8 +75,11 @@ public abstract class WoodShop<T extends IWeight> implements Runnable {
         log("Finished");
     }
 
+    /**
+     * Log message in correct format
+     */
     protected void log(String message) {
-        logger.accept("[" + timeFormat.format(LocalDateTime.now()) + "] "
+        logger.accept("[" + TIME_FORMATTER.format(LocalDateTime.now()) + "] "
                 + getName() + ": " + message);
     }
 

@@ -10,8 +10,8 @@ import java.util.function.Consumer;
 public class WasteShop extends WoodShop<Waste> {
 
     public WasteShop(String name, ProductStore<IWeight> productStore, WasteStore wasteStore,
-                     WoodLock woodLock, long workTime, Consumer<String> logger) {
-        super(name, null, productStore, workTime, 0, logger, wasteStore, woodLock);
+                     WoodLock woodLock, long workTime, long timePerSingle, Consumer<String> logger) {
+        super(name, null, productStore, workTime, timePerSingle, logger, wasteStore, woodLock);
     }
 
     @Override
@@ -32,21 +32,30 @@ public class WasteShop extends WoodShop<Waste> {
     public void run() {
         log("Started");
         while (System.currentTimeMillis() < workToTime) {
+            // join lock
             woodLock.lock();
             try {
-                while (wasteStore.getSize() == 0)
-                    woodLock.isEmpty().await();
+                // pre check of condition, for correct logging
+                if (wasteStore.getSize() == 0) {
+                    log("is empty");
+                    while (wasteStore.getSize() == 0)
+                        woodLock.isEmpty().await();
+                }
 
+                // decrement 1 waste
                 wasteStore.removeWithPrint(this);
                 woodLock.isFull().signal();
+
+                final IWeight product = createProduct();
+                // wait for creation product
+                Thread.sleep(super.timePerSingle);
+                productStore.add(product);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 woodLock.unlock();
             }
 
-            final IWeight product = createProduct();
-            productStore.add(product);
         }
         log("Finished");
     }

@@ -26,7 +26,7 @@ public class TestApp {
         Thread thread2 = new Thread(shop2);
 
         WasteShop shop3 = new WasteShop("wasteShop", productStore, wasteStore,
-                woodLock, 10, System.out::println);
+                woodLock, 10, 1, System.out::println);
         Thread thread3 = new Thread(shop3);
 
         thread1.start();

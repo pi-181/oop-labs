@@ -14,9 +14,6 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class DlgShop extends JDialog {
@@ -28,6 +25,8 @@ public class DlgShop extends JDialog {
     private JTextField cylinderTimeField;
     private JTextField timberTimeField;
     private JTextField totalTimeField;
+    private JTextField packerTimeField;
+    private JTextField wasteStorageField;
 
     private final WoodDirectory woodDirectory;
     private final ProductStore<IWeight> productStore;
@@ -68,12 +67,16 @@ public class DlgShop extends JDialog {
     }
 
     private void onOK() {
-        final Integer cylinderTime = getIntegerField(cylinderTimeField);
-        final Integer timberTime = getIntegerField(timberTimeField);
-        final Integer totalTime = getIntegerField(totalTimeField);
-        if (cylinderTime == null || timberTime == null || totalTime == null)
+        final Integer cylinderTime = getSecondFromMsField(cylinderTimeField);
+        final Integer timberTime = getSecondFromMsField(timberTimeField);
+        final Integer totalTime = getSecondFromMsField(totalTimeField);
+        final Integer packerTime = getSecondFromMsField(this.packerTimeField);
+        final Integer wasteStorageSize = getIntegerField(wasteStorageField);
+        if (cylinderTime == null || timberTime == null ||
+                totalTime == null || packerTime == null || wasteStorageSize == null)
             return;
 
+        wasteStore.setMaxSize(wasteStorageSize);
         final CylinderShop cylinderShop = new CylinderShop("Cylinder Shop", woodDirectory, productStore,
                 wasteStore, woodLock, totalTime, cylinderTime, logger);
         final Thread cylThread = new Thread(cylinderShop);
@@ -87,7 +90,7 @@ public class DlgShop extends JDialog {
         timberThread.start();
 
         final WasteShop wasteShop
-                = new WasteShop("Waste Shop", productStore, wasteStore, woodLock, totalTime, logger);
+                = new WasteShop("Waste Shop", productStore, wasteStore, woodLock, totalTime, packerTime, logger);
         final Thread wasteThread = new Thread(wasteShop);
         wasteThread.setDaemon(true);
         wasteThread.start();
@@ -100,10 +103,22 @@ public class DlgShop extends JDialog {
     }
 
     @Nullable
-    private Integer getIntegerField(JTextField field) {
+    private Integer getSecondFromMsField(JTextField field) {
         final String text = field.getText();
         try {
             return (int) Float.parseFloat(text) * 1000;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    text + " is invalid value.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
+    @Nullable
+    private Integer getIntegerField(JTextField field) {
+        final String text = field.getText();
+        try {
+            return Integer.parseInt(text);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
                     text + " is invalid value.", "Error", JOptionPane.ERROR_MESSAGE);
