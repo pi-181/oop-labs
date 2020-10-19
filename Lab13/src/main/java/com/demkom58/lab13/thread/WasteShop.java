@@ -37,9 +37,10 @@ public class WasteShop extends WoodShop<Waste> {
             try {
                 // pre check of condition, for correct logging
                 if (wasteStore.getSize() == 0) {
-                    log("is empty");
+                    log("is empty, waiting...");
                     while (wasteStore.getSize() == 0)
                         woodLock.isEmpty().await();
+                    log("continue work");
                 }
 
                 // decrement 1 waste

@@ -55,6 +55,7 @@ public abstract class WoodShop<T extends IWeight> implements Runnable {
                     log("waste storage is full, waiting...");
                     while (wasteStore.getSize() >= wasteStore.getMaxSize())
                         woodLock.isFull().await();
+                    log("waste storage is not full, continue work");
                 }
 
                 // add to waste storage
